@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>任务对话框测试</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f8fafc;
+            padding: 20px;
+        }
+
+        .test-container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        /* 模态框样式 */
+        .task-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 2000;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .task-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 24px;
+            margin: 16px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 85vh;
+            overflow: hidden;
+            transform: scale(0.8);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .task-modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        .btn-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #e2e8f0;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #4a5568;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 24px;
+            max-height: 65vh;
+            overflow-y: auto;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 16px;
+            font-weight: 500;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #2d3748;
+            background-color: white;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: none;
+            line-height: 1.5;
+        }
+
+        /* 循环设置 */
+        .repeat-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .repeat-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: calc(50% - 4px);
+            padding: 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 80px;
+        }
+
+        .repeat-option.selected {
+            border-color: #667eea;
+            background-color: rgba(102, 126, 234, 0.05);
+        }
+
+        .repeat-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .repeat-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #2d3748;
+            text-align: center;
+        }
+
+        /* 难度选择 */
+        .difficulty-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .difficulty-option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .difficulty-option.selected {
+            border-color: #667eea;
+            background-color: rgba(102, 126, 234, 0.05);
+        }
+
+        .difficulty-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 12px;
+        }
+
+        .difficulty-info {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .difficulty-name {
+            font-size: 16px;
+            font-weight: 500;
+            color: #2d3748;
+        }
+
+        .difficulty-score {
+            font-size: 14px;
+            color: #4a5568;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+        }
+
+        .form-actions .btn {
+            flex: 1;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #2d3748;
+            border: 2px solid #e2e8f0;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>任务对话框测试</h1>
+        <p>点击下方按钮测试添加任务对话框的显示效果：</p>
+        <br>
+        <button class="btn-primary" onclick="showModal()">添加任务</button>
+    </div>
+
+    <!-- 添加任务模态框 -->
+    <div class="task-modal" id="taskModal" onclick="hideModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title">添加任务</div>
+                <button class="btn-close" onclick="hideModal()">×</button>
+            </div>
+            
+            <div class="modal-body">
+                <form>
+                    <!-- 任务名称 -->
+                    <div class="form-group">
+                        <label class="form-label">任务名称</label>
+                        <input 
+                            class="form-input" 
+                            type="text" 
+                            placeholder="请输入任务名称" 
+                            maxlength="20"
+                        />
+                    </div>
+                    
+                    <!-- 任务描述 -->
+                    <div class="form-group">
+                        <label class="form-label">任务描述</label>
+                        <textarea 
+                            class="form-textarea" 
+                            placeholder="请输入任务描述（可选）" 
+                            maxlength="100"
+                        ></textarea>
+                    </div>
+                    
+                    <!-- 循环设置 -->
+                    <div class="form-group">
+                        <label class="form-label">循环设置</label>
+                        <div class="repeat-options">
+                            <div class="repeat-option selected" onclick="selectRepeat(this)">
+                                <div class="repeat-icon">📅</div>
+                                <div class="repeat-name">仅一次</div>
+                            </div>
+                            <div class="repeat-option" onclick="selectRepeat(this)">
+                                <div class="repeat-icon">🔄</div>
+                                <div class="repeat-name">每天</div>
+                            </div>
+                            <div class="repeat-option" onclick="selectRepeat(this)">
+                                <div class="repeat-icon">📆</div>
+                                <div class="repeat-name">每周</div>
+                            </div>
+                            <div class="repeat-option" onclick="selectRepeat(this)">
+                                <div class="repeat-icon">🗓️</div>
+                                <div class="repeat-name">每月</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 难度选择 -->
+                    <div class="form-group">
+                        <label class="form-label">任务难度</label>
+                        <div class="difficulty-options">
+                            <div class="difficulty-option selected" onclick="selectDifficulty(this)">
+                                <div class="difficulty-color" style="background-color: #52c41a;"></div>
+                                <div class="difficulty-info">
+                                    <div class="difficulty-name">简单</div>
+                                    <div class="difficulty-score">+10分</div>
+                                </div>
+                            </div>
+                            <div class="difficulty-option" onclick="selectDifficulty(this)">
+                                <div class="difficulty-color" style="background-color: #1890ff;"></div>
+                                <div class="difficulty-info">
+                                    <div class="difficulty-name">中等</div>
+                                    <div class="difficulty-score">+20分</div>
+                                </div>
+                            </div>
+                            <div class="difficulty-option" onclick="selectDifficulty(this)">
+                                <div class="difficulty-color" style="background-color: #f5222d;"></div>
+                                <div class="difficulty-info">
+                                    <div class="difficulty-name">困难</div>
+                                    <div class="difficulty-score">+30分</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 提交按钮 -->
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="hideModal()">取消</button>
+                        <button type="button" class="btn btn-primary">添加</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showModal() {
+            document.getElementById('taskModal').classList.add('show');
+        }
+
+        function hideModal() {
+            document.getElementById('taskModal').classList.remove('show');
+        }
+
+        function selectRepeat(element) {
+            document.querySelectorAll('.repeat-option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        function selectDifficulty(element) {
+            document.querySelectorAll('.difficulty-option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+    </script>
+</body>
+</html>

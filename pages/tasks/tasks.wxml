@@ -1,0 +1,213 @@
+<!--任务管理页面 - 任务增删改查界面-->
+<view class="tasks-page">
+  <!-- 自定义导航栏 -->
+  <view class="custom-navbar" style="padding-top: {{statusBarHeight}}px; height: {{navBarHeight}}px;">
+    <view class="navbar-content">
+      <text class="navbar-title">任务管理</text>
+    </view>
+  </view>
+
+  <!-- 任务管理主体区域 -->
+  <scroll-view class="tasks-container" style="margin-top: {{navBarHeight + statusBarHeight}}px; height: calc(100vh - {{navBarHeight + statusBarHeight}}px);" scroll-y="true">
+    <!-- 任务统计卡片 -->
+    <view class="stats-card">
+      <view class="stats-item">
+        <text class="stats-number">{{tasks.length}}</text>
+        <text class="stats-label">总任务</text>
+      </view>
+      <view class="stats-item">
+        <text class="stats-number easy-color">{{easyTasksCount}}</text>
+        <text class="stats-label">简单</text>
+      </view>
+      <view class="stats-item">
+        <text class="stats-number medium-color">{{mediumTasksCount}}</text>
+        <text class="stats-label">中等</text>
+      </view>
+      <view class="stats-item">
+        <text class="stats-number hard-color">{{hardTasksCount}}</text>
+        <text class="stats-label">困难</text>
+      </view>
+    </view>
+
+    <!-- 任务列表 -->
+    <view class="tasks-section">
+      <view class="section-header">
+        <text class="section-title">我的任务</text>
+        <text class="section-subtitle">长按任务可进行编辑或删除</text>
+      </view>
+
+      <!-- 空状态 -->
+      <view class="empty-state" wx:if="{{isEmpty}}">
+        <image class="empty-image" src="/images/empty-tasks.svg" mode="aspectFit" />
+        <text class="empty-title">还没有任务</text>
+        <text class="empty-subtitle">点击右上角 + 号添加你的第一个任务吧</text>
+        <button class="btn btn-primary" bindtap="showAddTaskModal">添加任务</button>
+      </view>
+
+      <!-- 任务列表 -->
+      <view class="tasks-list" wx:else>
+        <view 
+          wx:for="{{tasks}}" 
+          wx:key="id"
+          class="task-card"
+          bindlongpress="showTaskActions"
+          data-task-id="{{item.id}}"
+        >
+          <view class="task-header">
+            <view class="task-info">
+              <view class="task-title-row">
+                <text class="task-name">{{item.name}}</text>
+                <text class="task-date">{{item.createTime}}</text>
+              </view>
+              <view class="difficulty-tag difficulty-{{item.difficulty}}">
+                {{item.difficultyText}}
+              </view>
+            </view>
+            <view class="task-score">+{{item.score}}分</view>
+          </view>
+          
+          <text class="task-description" wx:if="{{item.description}}">{{item.description}}</text>
+          
+          <view class="task-meta">
+            <view class="task-repeat" wx:if="{{item.repeatType && item.repeatType !== 'once'}}">
+              <text class="repeat-label">{{item.repeatText}}</text>
+            </view>
+          </view>
+          
+          <view class="task-footer">
+            <view class="task-actions">
+              <button 
+                class="btn-action btn-edit" 
+                bindtap="editTask" 
+                data-task-id="{{item.id}}"
+              >
+                编辑
+              </button>
+              <button 
+                class="btn-action btn-delete" 
+                bindtap="deleteTask" 
+                data-task-id="{{item.id}}"
+              >
+                删除
+              </button>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 添加任务按钮（浮动） -->
+    <view class="fab" bindtap="showAddTaskModal" wx:if="{{hasItems}}">
+      <text class="fab-icon">+</text>
+    </view>
+  </scroll-view>
+
+  <!-- 添加/编辑任务模态框 -->
+  <view class="task-modal {{showTaskModal ? 'show' : ''}}" catchtap="hideTaskModal">
+    <view class="modal-content" catchtap="stopPropagation">
+      <view class="modal-header">
+        <text class="modal-title">{{isEditMode ? '编辑任务' : '添加任务'}}</text>
+      </view>
+      
+      <view class="modal-body">
+        <form bindsubmit="submitTask">
+          <!-- 任务名称 -->
+          <view class="form-group">
+            <label class="form-label">任务名称</label>
+            <input 
+              class="form-input" 
+              type="text" 
+              placeholder="请输入任务名称" 
+              value="{{taskForm.name}}"
+              bindinput="onTaskNameInput"
+              maxlength="20"
+            />
+          </view>
+          
+          <!-- 任务描述 -->
+          <view class="form-group">
+            <label class="form-label">任务描述</label>
+            <textarea 
+              class="form-textarea" 
+              placeholder="请输入任务描述（可选）" 
+              value="{{taskForm.description}}"
+              bindinput="onTaskDescInput"
+              maxlength="100"
+            ></textarea>
+          </view>
+          
+          <!-- 任务循环设置 -->
+          <view class="form-group">
+            <label class="form-label">循环设置</label>
+            <view class="repeat-options">
+              <view 
+                wx:for="{{repeatOptions}}" 
+                wx:key="value"
+                class="repeat-option {{taskForm.repeatType === item.value ? 'selected' : ''}}"
+                bindtap="selectRepeatType"
+                data-repeat="{{item.value}}"
+              >
+                <text class="repeat-icon">{{item.icon}}</text>
+                <text class="repeat-name">{{item.name}}</text>
+              </view>
+            </view>
+          </view>
+
+          <!-- 难度选择 -->
+          <view class="form-group">
+            <label class="form-label">任务难度</label>
+            <view class="difficulty-options">
+              <view 
+                wx:for="{{difficultyOptions}}" 
+                wx:key="value"
+                class="difficulty-option {{taskForm.difficulty === item.value ? 'selected' : ''}}"
+                bindtap="selectDifficulty"
+                data-difficulty="{{item.value}}"
+              >
+                <view class="difficulty-color" style="background-color: {{item.color}};"></view>
+                <view class="difficulty-info">
+                  <text class="difficulty-name">{{item.name}}</text>
+                  <text class="difficulty-score">+{{item.score}}分</text>
+                </view>
+              </view>
+            </view>
+          </view>
+          
+          <!-- 提交按钮 -->
+          <view class="form-actions">
+            <button class="btn btn-secondary" bindtap="hideTaskModal">取消</button>
+            <button 
+              class="btn btn-primary" 
+              form-type="submit"
+              disabled="{{!canSubmit}}"
+            >
+              {{isEditMode ? '保存' : '添加'}}
+            </button>
+          </view>
+        </form>
+      </view>
+    </view>
+  </view>
+
+  <!-- 任务操作菜单 -->
+  <view class="action-sheet {{showActionSheet ? 'show' : ''}}" catchtap="hideActionSheet">
+    <view class="action-sheet-content" catchtap="stopPropagation">
+      <view class="action-sheet-header">
+        <text class="action-sheet-title">选择操作</text>
+      </view>
+      <view class="action-sheet-body">
+        <button class="action-item" bindtap="editTaskFromSheet">
+          <text class="action-icon">✏️</text>
+          <text class="action-text">编辑任务</text>
+        </button>
+        <button class="action-item danger" bindtap="deleteTaskFromSheet">
+          <text class="action-icon">🗑️</text>
+          <text class="action-text">删除任务</text>
+        </button>
+      </view>
+      <view class="action-sheet-footer">
+        <button class="btn btn-secondary" bindtap="hideActionSheet">取消</button>
+      </view>
+    </view>
+  </view>
+</view>

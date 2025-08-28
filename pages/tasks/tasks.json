@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "任务管理",
+  "navigationStyle": "custom",
+  "renderer": "skyline",
+  "componentFramework": "glass-easel",
+  "backgroundColor": "#f8f9fa",
+  "enablePullDownRefresh": true
+}

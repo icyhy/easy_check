@@ -1,0 +1,32 @@
+<!--Canvas测试页面-->
+<view class="canvas-test-page">
+  <view class="header">
+    <text class="title">Canvas渲染测试</text>
+    <text class="status">状态: {{canvasReady ? '已就绪' : '初始化中...'}}</text>
+  </view>
+
+  <!-- Canvas区域 -->
+  <view class="canvas-container">
+    <canvas 
+      type="2d"
+      id="testCanvas"
+      class="test-canvas"
+      bindtap="onCanvasTap"
+      disable-scroll="{{true}}"
+    ></canvas>
+  </view>
+
+  <!-- 控制按钮 -->
+  <view class="controls">
+    <button class="control-btn" bindtap="redraw">重新绘制</button>
+    <button class="control-btn" bindtap="addRandomBlock">添加随机色块</button>
+    <button class="control-btn" bindtap="clearBlocks">清空色块</button>
+  </view>
+
+  <!-- 调试信息 -->
+  <view class="debug-info">
+    <text class="debug-title">调试信息:</text>
+    <text class="debug-item">Canvas就绪: {{canvasReady ? '是' : '否'}}</text>
+    <text class="debug-item">色块数量: {{testBlocks.length}}</text>
+  </view>
+</view>

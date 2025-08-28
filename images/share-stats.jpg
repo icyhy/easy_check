@@ -1,0 +1,18 @@
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="400" height="300" fill="url(#gradient)"/>
+<defs>
+<linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" style="stop-color:#1890ff;stop-opacity:1" />
+<stop offset="100%" style="stop-color:#40a9ff;stop-opacity:1" />
+</linearGradient>
+</defs>
+<text x="200" y="120" text-anchor="middle" font-family="Arial" font-size="32" font-weight="bold" fill="white">统计分析</text>
+<text x="200" y="160" text-anchor="middle" font-family="Arial" font-size="18" fill="white">数据驱动，持续改进</text>
+<rect x="160" y="180" width="8" height="40" rx="4" fill="rgba(255,255,255,0.6)"/>
+<rect x="172" y="170" width="8" height="50" rx="4" fill="rgba(255,255,255,0.7)"/>
+<rect x="184" y="160" width="8" height="60" rx="4" fill="rgba(255,255,255,0.8)"/>
+<rect x="196" y="150" width="8" height="70" rx="4" fill="rgba(255,255,255,0.9)"/>
+<rect x="208" y="140" width="8" height="80" rx="4" fill="white"/>
+<rect x="220" y="165" width="8" height="55" rx="4" fill="rgba(255,255,255,0.8)"/>
+<rect x="232" y="175" width="8" height="45" rx="4" fill="rgba(255,255,255,0.7)"/>
+</svg>

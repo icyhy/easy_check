@@ -1,0 +1,17 @@
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="400" height="300" fill="url(#gradient)"/>
+<defs>
+<linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" style="stop-color:#52c41a;stop-opacity:1" />
+<stop offset="100%" style="stop-color:#73d13d;stop-opacity:1" />
+</linearGradient>
+</defs>
+<text x="200" y="120" text-anchor="middle" font-family="Arial" font-size="32" font-weight="bold" fill="white">任务管理</text>
+<text x="200" y="160" text-anchor="middle" font-family="Arial" font-size="18" fill="white">科学规划，高效执行</text>
+<rect x="150" y="180" width="100" height="4" rx="2" fill="rgba(255,255,255,0.8)"/>
+<rect x="150" y="190" width="80" height="4" rx="2" fill="rgba(255,255,255,0.6)"/>
+<rect x="150" y="200" width="90" height="4" rx="2" fill="rgba(255,255,255,0.7)"/>
+<circle cx="140" cy="182" r="3" fill="white"/>
+<circle cx="140" cy="192" r="3" fill="white"/>
+<circle cx="140" cy="202" r="3" fill="white"/>
+</svg>

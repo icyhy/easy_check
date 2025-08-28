@@ -1,0 +1,750 @@
+/**
+ * 任务管理页面样式文件
+ * 实现任务列表、表单和交互效果
+ */
+
+.tasks-page {
+  min-height: 100vh;
+  background-color: var(--background-color);
+}
+
+/* 自定义导航栏 */
+.custom-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: var(--primary-gradient);
+  color: white;
+  box-shadow: 0 4rpx 20rpx rgba(102, 126, 234, 0.2);
+}
+
+.navbar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-lg);
+  height: 88rpx;
+}
+
+.navbar-title {
+  font-size: var(--font-size-lg);
+  font-weight: bold;
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+}
+
+.btn-add {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+/* .btn-add:active - Skyline 不支持 :active 伪类，已移除 */
+
+.add-icon {
+  font-size: var(--font-size-xl);
+  color: white;
+  font-weight: bold;
+}
+
+/* 任务容器 */
+.tasks-container {
+  padding: var(--spacing-base);
+}
+
+/* 统计卡片 */
+.stats-card {
+  background-color: var(--surface-color);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  display: flex;
+  justify-content: space-around;
+  box-shadow: 0 4rpx 16rpx var(--shadow-color);
+}
+
+.stats-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.stats-number {
+  font-size: var(--font-size-xxl);
+  font-weight: bold;
+  color: var(--text-primary);
+  margin-bottom: 8rpx;
+}
+
+.stats-number.easy-color {
+  color: var(--easy-color);
+}
+
+.stats-number.medium-color {
+  color: var(--medium-color);
+}
+
+.stats-number.hard-color {
+  color: var(--hard-color);
+}
+
+.stats-label {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+/* 任务区域 */
+.tasks-section {
+  margin-bottom: 120rpx; /* 为浮动按钮留出空间 */
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-base);
+  padding: 0 var(--spacing-sm);
+}
+
+.section-title {
+  font-size: var(--font-size-lg);
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.section-subtitle {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xl) var(--spacing-lg);
+  text-align: center;
+  background-color: var(--surface-color);
+  border-radius: var(--border-radius-lg);
+  box-shadow: 0 4rpx 16rpx var(--shadow-color);
+}
+
+.empty-image {
+  width: 200rpx;
+  height: 200rpx;
+  margin-bottom: var(--spacing-lg);
+  opacity: 0.6;
+}
+
+.empty-title {
+  font-size: var(--font-size-lg);
+  font-weight: bold;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.empty-subtitle {
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-lg);
+  line-height: 1.6;
+}
+
+/* 任务列表 */
+.tasks-list {
+  display: flex;
+  flex-direction: column;
+  /* Skyline 不支持 gap 属性，使用 margin 替代 */
+}
+
+.tasks-list .task-card {
+  margin-bottom: 24rpx;
+}
+
+.tasks-list .task-card:last-child {
+  margin-bottom: 0;
+}
+
+.task-card {
+  background-color: var(--surface-color);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: 0 4rpx 16rpx var(--shadow-color);
+  transition: all 0.3s ease;
+}
+
+/* .task-card:active - Skyline 不支持 :active 伪类，已移除 */
+
+.task-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-sm);
+}
+
+.task-info {
+  flex: 1;
+  margin-right: var(--spacing-base);
+}
+
+.task-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8rpx;
+}
+
+.task-name {
+  font-size: var(--font-size-lg);
+  font-weight: bold;
+  color: var(--text-primary);
+  line-height: 1.4;
+  word-wrap: break-word;
+  word-break: break-all;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  flex: 1;
+  margin-right: var(--spacing-sm);
+}
+
+.task-score {
+  font-size: var(--font-size-base);
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.task-description {
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-base);
+  word-wrap: break-word;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.task-meta {
+  margin-bottom: var(--spacing-sm);
+}
+
+.task-repeat {
+  display: inline-block;
+}
+
+.repeat-label {
+  font-size: var(--font-size-xs);
+  color: var(--primary-color);
+  background-color: rgba(102, 126, 234, 0.1);
+  padding: 4rpx 12rpx;
+  border-radius: var(--border-radius-sm);
+  border: 1rpx solid var(--primary-color);
+}
+
+.task-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-top: var(--spacing-base);
+  border-top: 2rpx solid var(--border-color);
+}
+
+.task-date {
+  font-size: var(--font-size-xs);
+  color: var(--text-disabled);
+  white-space: nowrap;
+}
+
+.task-actions {
+  display: flex;
+  /* Skyline 不支持 gap 属性，使用 margin 替代 */
+}
+
+.task-actions .btn-action {
+  margin-right: 16rpx;
+}
+
+.task-actions .btn-action:last-child {
+  margin-right: 0;
+}
+
+.btn-action {
+  padding: 12rpx 24rpx;
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-xs);
+  border: none;
+  transition: all 0.3s ease;
+  min-width: 80rpx;
+  text-align: center;
+}
+
+.btn-edit {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* .btn-edit:active - Skyline 不支持 :active 伪类，已移除 */
+
+.btn-delete {
+  background-color: var(--hard-color);
+  color: white;
+}
+
+/* .btn-delete:active - Skyline 不支持 :active 伪类，已移除 */
+
+/* 浮动添加按钮 */
+.fab {
+  position: fixed;
+  bottom: 120rpx;
+  right: var(--spacing-lg);
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8rpx 24rpx rgba(60, 197, 31, 0.3);
+  z-index: 100;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* .fab:active - Skyline 不支持 :active 伪类，已移除 */
+
+.fab-icon {
+  font-size: 48rpx;
+  color: white;
+  font-weight: bold;
+}
+
+/* 任务模态框 */
+.task-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2000;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.task-modal.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  background-color: var(--surface-color);
+  border-radius: var(--border-radius-xl);
+  margin: var(--spacing-lg);
+  max-width: 600rpx;
+  width: 90%;
+  max-height: 85vh;
+  overflow: hidden;
+  transform: scale(0.8);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 20rpx 60rpx rgba(0, 0, 0, 0.15);
+}
+
+.task-modal.show .modal-content {
+  transform: scale(1);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-lg);
+  border-bottom: 2rpx solid var(--border-color);
+}
+
+.modal-title {
+  font-size: var(--font-size-lg);
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.btn-close {
+  width: 32rpx;
+  height: 32rpx;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.1);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  color: var(--text-secondary);
+  transition: all 0.3s ease;
+  padding: 0;
+  line-height: 1;
+}
+
+/* .btn-close:active - Skyline 不支持 :active 伪类，已移除 */
+
+.modal-body {
+  padding: var(--spacing-lg);
+  max-height: 65vh;
+  overflow-y: auto;
+}
+
+/* 表单样式 */
+.form-group {
+  margin-bottom: var(--spacing-lg);
+}
+
+.form-label {
+  display: block;
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.form-input {
+  width: 100%;
+  padding: 24rpx var(--spacing-base);
+  border: 2rpx solid var(--border-color);
+  border-radius: var(--border-radius-base);
+  font-size: var(--font-size-base);
+  color: var(--text-primary);
+  background-color: var(--surface-color);
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+  line-height: 1.2;
+  height: 80rpx;
+}
+
+.form-textarea {
+  width: 100%;
+  padding: var(--spacing-base);
+  border: 2rpx solid var(--border-color);
+  border-radius: var(--border-radius-base);
+  font-size: var(--font-size-base);
+  color: var(--text-primary);
+  background-color: var(--surface-color);
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+  line-height: 1.4;
+}
+
+.form-input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+.form-textarea:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+.form-textarea {
+  min-height: 80rpx;
+  max-height: 120rpx;
+  resize: none;
+  line-height: 1.4;
+}
+
+/* 循环设置 */
+.repeat-options {
+  display: flex;
+  flex-wrap: wrap;
+  /* Skyline 不支持 gap 属性，使用 margin 替代 */
+}
+
+.repeat-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: calc(50% - 8rpx);
+  margin-right: 16rpx;
+  margin-bottom: var(--spacing-sm);
+  padding: var(--spacing-sm);
+  border: 2rpx solid var(--border-color);
+  border-radius: var(--border-radius-base);
+  transition: all 0.3s ease;
+  min-height: 80rpx;
+}
+
+.repeat-option:nth-child(2n) {
+  margin-right: 0;
+}
+
+.repeat-option.selected {
+  border-color: var(--primary-color);
+  background-color: rgba(102, 126, 234, 0.05);
+}
+
+.repeat-icon {
+  font-size: 24rpx;
+  margin-bottom: 4rpx;
+}
+
+.repeat-name {
+  font-size: 24rpx;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+/* 难度选择 */
+.difficulty-options {
+  display: flex;
+  flex-direction: column;
+  /* Skyline 不支持 gap 属性，使用 margin 替代 */
+}
+
+.difficulty-options .difficulty-option {
+  margin-bottom: var(--spacing-sm);
+}
+
+.difficulty-options .difficulty-option:last-child {
+  margin-bottom: 0;
+}
+
+.difficulty-option {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-base);
+  border: 2rpx solid var(--border-color);
+  border-radius: var(--border-radius-base);
+  /* cursor: pointer; - Skyline 不支持，已移除 */
+  transition: all 0.3s ease;
+}
+
+.difficulty-option.selected {
+  border-color: var(--primary-color);
+  background-color: rgba(60, 197, 31, 0.05);
+}
+
+/* .difficulty-option:active - Skyline 不支持 :active 伪类，已移除 */
+
+.difficulty-color {
+  width: 32rpx;
+  height: 32rpx;
+  border-radius: 50%;
+  margin-right: var(--spacing-base);
+}
+
+.difficulty-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.difficulty-name {
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.difficulty-score {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+/* 表单操作 */
+.form-actions {
+  display: flex;
+  margin-top: var(--spacing-xl);
+  /* Skyline 不支持 gap 属性，使用 margin 替代 */
+}
+
+.form-actions .btn {
+  margin-right: 20rpx;
+}
+
+.form-actions .btn:last-child {
+  margin-right: 0;
+}
+
+.form-actions .btn {
+  flex: 1;
+}
+
+/* 操作菜单 */
+.action-sheet {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2000;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: flex-end;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.action-sheet.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.action-sheet-content {
+  background-color: var(--surface-color);
+  border-radius: var(--border-radius-xl) var(--border-radius-xl) 0 0;
+  width: 100%;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.action-sheet.show .action-sheet-content {
+  transform: translateY(0);
+}
+
+.action-sheet-header {
+  padding: var(--spacing-lg);
+  border-bottom: 2rpx solid var(--border-color);
+  text-align: center;
+}
+
+.action-sheet-title {
+  font-size: var(--font-size-lg);
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.action-sheet-body {
+  padding: var(--spacing-base) 0;
+}
+
+.action-item {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-lg);
+  background-color: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+  transition: background-color 0.3s ease;
+}
+
+/* .action-item:active - Skyline 不支持 :active 伪类，已移除 */
+
+.action-item.danger {
+  color: var(--hard-color);
+}
+
+.action-icon {
+  font-size: var(--font-size-lg);
+  margin-right: var(--spacing-base);
+}
+
+.action-text {
+  font-size: var(--font-size-base);
+  color: inherit;
+}
+
+.action-sheet-footer {
+  padding: var(--spacing-lg);
+  border-top: 2rpx solid var(--border-color);
+}
+
+/* 兼容性增强样式 */
+.task-card,
+.fab,
+.btn-action {
+  will-change: transform, opacity; /* 强制硬件加速 */
+}
+
+/* 触摸优化 */
+.task-card,
+.fab,
+.btn-action,
+.btn-add,
+.btn-close,
+.repeat-option,
+.difficulty-option,
+.action-item {
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+}
+
+/* 触摸反馈效果 */
+.task-card.touching,
+.fab.touching,
+.btn-action.touching,
+.btn-add.touching,
+.repeat-option.touching,
+.difficulty-option.touching {
+  transform: scale(0.95);
+  transition: transform 0.1s ease;
+}
+
+/* 渲染模式条件样式 */
+/* Skyline 模式优化 */
+.skyline-mode .task-card {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.skyline-mode .fab {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.skyline-mode .modal-content {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.skyline-mode .btn-action {
+  transition: background-color 0.15s ease;
+}
+
+/* WebView 模式优化 */
+.webview-mode .task-card {
+  transition: all 0.3s ease;
+}
+
+.webview-mode .fab {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.webview-mode .modal-content {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.webview-mode .btn-action {
+  transition: background-color 0.2s ease;
+}
+
+/* 响应式设计 */
+@media (max-width: 375px) {
+  .stats-card {
+    padding: var(--spacing-base);
+  }
+  
+  .task-card {
+    padding: var(--spacing-base);
+  }
+  
+  .modal-content {
+    margin: var(--spacing-sm);
+    width: 95%;
+  }
+}

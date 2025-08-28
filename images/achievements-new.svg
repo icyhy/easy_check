@@ -1,0 +1,34 @@
+<svg width="144" height="144" viewBox="0 0 144 144" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景圆形 -->
+  <circle cx="72" cy="72" r="72" fill="#FF9800"/>
+  
+  <!-- 成就奖杯图标 -->
+  <g transform="translate(36, 24)">
+    <!-- 奖杯杯身 -->
+    <path d="M20 32 L20 48 Q20 56 28 56 L44 56 Q52 56 52 48 L52 32 Z" fill="#FFD700"/>
+    
+    <!-- 奖杯底座 -->
+    <rect x="16" y="56" width="40" height="8" rx="4" fill="#FFA000"/>
+    <rect x="24" y="64" width="24" height="6" rx="3" fill="#FF8F00"/>
+    
+    <!-- 奖杯把手 -->
+    <path d="M12 36 Q8 36 8 40 L8 44 Q8 48 12 48" stroke="#FFD700" stroke-width="4" fill="none"/>
+    <path d="M60 36 Q64 36 64 40 L64 44 Q64 48 60 48" stroke="#FFD700" stroke-width="4" fill="none"/>
+    
+    <!-- 装饰星星 -->
+    <g transform="translate(36, 40)">
+      <path d="M0 -6 L1.8 -1.8 L6 0 L1.8 1.8 L0 6 L-1.8 1.8 L-6 0 L-1.8 -1.8 Z" fill="#FF8F00"/>
+    </g>
+    
+    <!-- 顶部小星星装饰 -->
+    <g transform="translate(28, 8)">
+      <path d="M0 -4 L1.2 -1.2 L4 0 L1.2 1.2 L0 4 L-1.2 1.2 L-4 0 L-1.2 -1.2 Z" fill="#FFE082"/>
+    </g>
+    <g transform="translate(44, 12)">
+      <path d="M0 -3 L0.9 -0.9 L3 0 L0.9 0.9 L0 3 L-0.9 0.9 L-3 0 L-0.9 -0.9 Z" fill="#FFE082"/>
+    </g>
+    <g transform="translate(52, 24)">
+      <path d="M0 -3 L0.9 -0.9 L3 0 L0.9 0.9 L0 3 L-0.9 0.9 L-3 0 L-0.9 -0.9 Z" fill="#FFE082"/>
+    </g>
+  </g>
+</svg>

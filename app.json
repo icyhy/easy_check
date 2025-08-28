@@ -1,0 +1,45 @@
+{
+  "pages": [
+    "pages/checkin/checkin",
+    "pages/canvas-test/canvas-test",
+    "pages/canvas-compatibility-test/canvas-compatibility-test",
+    "pages/tasks/tasks",
+    "pages/achievements/achievements"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTitleText": "自律打卡",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f8f9fa"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#3cc51f",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/checkin/checkin",
+        "iconPath": "images/checkin-inactive.png",
+        "selectedIconPath": "images/checkin-new.png",
+        "text": "打卡"
+      },
+      {
+        "pagePath": "pages/tasks/tasks",
+        "iconPath": "images/tasks-inactive.png",
+        "selectedIconPath": "images/tasks-new.png",
+        "text": "任务"
+      },
+      {
+        "pagePath": "pages/achievements/achievements",
+        "iconPath": "images/achievements-inactive.png",
+        "selectedIconPath": "images/achievements-new.png",
+        "text": "成就"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

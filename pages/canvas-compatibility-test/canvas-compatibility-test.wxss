@@ -1,0 +1,217 @@
+/* Canvas API兼容性测试页面样式 */
+
+.container {
+  padding: 20rpx;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+/* 头部区域 */
+.header {
+  text-align: center;
+  margin-bottom: 30rpx;
+  padding: 20rpx;
+  background-color: #fff;
+  border-radius: 10rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  display: block;
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10rpx;
+}
+
+.subtitle {
+  display: block;
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.4;
+}
+
+/* Canvas测试区域 */
+.canvas-section {
+  margin-bottom: 30rpx;
+}
+
+.canvas-item {
+  margin-bottom: 20rpx;
+  padding: 20rpx;
+  background-color: #fff;
+  border-radius: 10rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+}
+
+.canvas-label {
+  display: block;
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15rpx;
+}
+
+.test-canvas {
+  width: 100%;
+  height: 300rpx;
+  border: 2rpx solid #ddd;
+  border-radius: 8rpx;
+  background-color: #fafafa;
+}
+
+/* 状态区域 */
+.status-section {
+  margin-bottom: 30rpx;
+  padding: 20rpx;
+  background-color: #fff;
+  border-radius: 10rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+}
+
+.status-label {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+  margin-right: 15rpx;
+}
+
+.status-text {
+  font-size: 28rpx;
+  color: #007aff;
+  flex: 1;
+}
+
+/* 控制按钮区域 */
+.control-section {
+  margin-bottom: 30rpx;
+  display: flex;
+  gap: 20rpx;
+}
+
+.control-btn {
+  flex: 1;
+  height: 80rpx;
+  line-height: 80rpx;
+  border-radius: 10rpx;
+  font-size: 30rpx;
+  font-weight: bold;
+}
+
+.control-btn.primary {
+  background-color: #007aff;
+  color: #fff;
+}
+
+.control-btn.secondary {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.control-btn:active {
+  opacity: 0.8;
+  transform: scale(0.98);
+}
+
+/* 测试结果区域 */
+.results-section {
+  background-color: #fff;
+  border-radius: 10rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+  padding: 20rpx;
+}
+
+.results-title {
+  display: block;
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+  text-align: center;
+}
+
+.no-results {
+  text-align: center;
+  padding: 40rpx;
+  color: #999;
+  font-size: 28rpx;
+}
+
+/* 测试结果项 */
+.result-item {
+  margin-bottom: 20rpx;
+  padding: 20rpx;
+  border-radius: 8rpx;
+  border-left: 6rpx solid #ddd;
+}
+
+.result-item.success {
+  background-color: #f0f9ff;
+  border-left-color: #10b981;
+}
+
+.result-item.failure {
+  background-color: #fef2f2;
+  border-left-color: #ef4444;
+}
+
+.result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10rpx;
+}
+
+.result-name {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.result-status {
+  font-size: 26rpx;
+  font-weight: bold;
+}
+
+.result-item.success .result-status {
+  color: #10b981;
+}
+
+.result-item.failure .result-status {
+  color: #ef4444;
+}
+
+.result-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.result-message {
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.4;
+}
+
+.result-details {
+  font-size: 24rpx;
+  color: #666;
+  line-height: 1.3;
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 10rpx;
+  border-radius: 4rpx;
+  word-break: break-all;
+}
+
+/* 响应式设计 */
+@media (max-width: 750rpx) {
+  .control-section {
+    flex-direction: column;
+  }
+  
+  .control-btn {
+    margin-bottom: 15rpx;
+  }
+}

@@ -1,0 +1,102 @@
+<!--成就页面 - 成就系统和徽章展示界面-->
+<view class="achievements-page">
+  <!-- 自定义导航栏 -->
+  <view class="custom-navbar" style="padding-top: {{statusBarHeight}}px; height: {{navBarHeight}}px;">
+    <view class="navbar-content">
+      <text class="navbar-title">成就管理</text>
+    </view>
+  </view>
+
+  <!-- 成就系统主体区域 -->
+  <scroll-view class="achievements-container" style="margin-top: {{navBarHeight + statusBarHeight}}px; height: calc(100vh - {{navBarHeight + statusBarHeight}}px);" scroll-y="true">
+    <!-- 成就统计卡片 -->
+    <view class="stats-card">
+      <view class="stats-item">
+        <text class="stats-number">{{totalAchievements}}</text>
+        <text class="stats-label">总成就</text>
+      </view>
+      <view class="stats-item">
+        <text class="stats-number">{{unlockedCount}}</text>
+        <text class="stats-label">已解锁</text>
+      </view>
+      <view class="stats-item">
+        <text class="stats-number">{{completionRate}}%</text>
+        <text class="stats-label">完成率</text>
+      </view>
+      <view class="stats-item">
+        <text class="stats-number">{{recentUnlocked}}</text>
+        <text class="stats-label">本周新增</text>
+      </view>
+    </view>
+
+    <!-- 成就列表卡片 -->
+    <view class="achievements-list-card">
+      <view class="section-header">
+        <text class="section-title">成就列表</text>
+        <text class="section-subtitle">{{achievements.length}} 个成就</text>
+      </view>
+      
+      <view class="achievements-list">
+        <view 
+          wx:for="{{achievements}}"
+          wx:key="id"
+          class="achievement-item {{item.unlocked ? 'unlocked' : 'locked'}}"
+          data-id="{{item.id}}"
+          bindtap="viewAchievementDetail"
+        >
+      <!-- 成就图标 -->
+      <view class="achievement-icon">
+        <text class="icon-text {{item.unlocked ? '' : 'grayscale'}}">{{item.icon}}</text>
+        <view wx:if="{{item.unlocked}}" class="unlock-badge">✓</view>
+      </view>
+
+      <!-- 成就信息 -->
+      <view class="achievement-info">
+        <view class="achievement-header">
+          <text class="achievement-name">{{item.name}}</text>
+          <view class="difficulty-badge difficulty-{{item.difficulty}}">
+            {{item.difficulty === 'easy' ? '简单' : item.difficulty === 'medium' ? '中等' : item.difficulty === 'hard' ? '困难' : '传奇'}}
+          </view>
+        </view>
+        
+        <text class="achievement-description">{{item.description}}</text>
+        
+        <!-- 进度条 -->
+        <view class="progress-section">
+          <view class="progress-bar">
+            <view 
+              class="progress-fill"
+              style="width: {{item.target > 0 ? (item.progress / item.target * 100) : 0}}"
+            ></view>
+          </view>
+          <text class="progress-text">{{item.progress}}/{{item.target}}</text>
+        </view>
+        
+        <!-- 奖励和解锁时间 -->
+        <view class="achievement-footer">
+          <text class="reward-text">🎁 {{item.reward}}分</text>
+          <text wx:if="{{item.showUnlockTime}}" class="unlock-time">
+            {{item.unlockedAt}}
+          </text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+      <!-- 空状态 -->
+      <view wx:if="{{isEmpty}}" class="empty-state">
+        <text class="empty-icon">🏆</text>
+        <text class="empty-text">暂无符合条件的成就</text>
+        <text class="empty-hint">尝试调整筛选条件</text>
+      </view>
+    </view>
+
+    <!-- 分享按钮 -->
+    <view class="share-section">
+      <button class="share-btn" bindtap="shareAchievements">
+        <text class="share-icon">📤</text>
+        <text>分享成就</text>
+      </button>
+    </view>
+  </scroll-view>
+</view>

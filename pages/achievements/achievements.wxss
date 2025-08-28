@@ -1,0 +1,508 @@
+/* 成就页面样式 */
+.achievements-page {
+  min-height: 100vh;
+  background: var(--background-gradient);
+}
+
+/* 自定义导航栏 */
+.custom-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: var(--primary-gradient);
+  color: white;
+  box-shadow: 0 4rpx 20rpx rgba(102, 126, 234, 0.2);
+}
+
+.navbar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-lg);
+  height: 88rpx;
+}
+
+.navbar-title {
+  font-size: var(--font-size-lg);
+  font-weight: bold;
+}
+
+/* 成就容器 */
+.achievements-container {
+  padding: var(--spacing-base);
+}
+
+/* 统计卡片 */
+.stats-card {
+  background-color: var(--surface-color);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  display: flex;
+  justify-content: space-around;
+  box-shadow: 0 4rpx 16rpx var(--shadow-color);
+}
+
+.stats-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.stats-number {
+  font-size: var(--font-size-xxl);
+  font-weight: bold;
+  color: var(--text-primary);
+  margin-bottom: 8rpx;
+}
+
+.stats-label {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* 通用样式 */
+.section-header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: var(--spacing-lg);
+}
+
+.section-title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.section-subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+/* 筛选控制卡片 */
+
+
+/* 成就列表卡片 */
+.achievements-list-card {
+  background-color: var(--surface-color);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  box-shadow: 0 4rpx 16rpx var(--shadow-color);
+}
+
+/* 成就列表 */
+.achievements-list {
+  display: flex;
+  flex-direction: column;
+  /* Skyline 不支持 gap 属性，使用 margin 替代 */
+}
+
+.achievements-list .achievement-item {
+  margin-bottom: var(--spacing-md);
+}
+
+.achievements-list .achievement-item:last-child {
+  margin-bottom: 0;
+}
+
+.achievement-item {
+  background-color: var(--card-background);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-lg);
+  display: flex;
+  align-items: center;
+  /* Skyline 不支持 gap 属性，使用 margin 替代 */
+  box-shadow: 0 2rpx 8rpx var(--shadow-light);
+  border: 1px solid var(--border-color);
+}
+
+.achievement-item .achievement-icon,
+.achievement-item .achievement-content {
+  margin-right: var(--spacing-md);
+}
+
+.achievement-item .achievement-content:last-child {
+  margin-right: 0;
+}
+
+.achievement-item {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.achievement-item.unlocked {
+  border-left: 6rpx solid var(--success-color);
+}
+
+.achievement-item.locked {
+  border-left: 6rpx solid var(--text-disabled);
+  opacity: 0.7;
+}
+
+.achievement-item:hover {
+  transform: translateY(-2rpx);
+  box-shadow: 0 4rpx 16rpx var(--shadow-color);
+}
+
+/* .achievement-item:active - Skyline 不支持 :active 伪类，已移除 */
+
+/* 成就图标 */
+.achievement-icon {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.icon-text {
+  font-size: 60rpx;
+  display: block;
+  transition: all 0.3s ease;
+}
+
+.icon-text.grayscale {
+  /* filter: grayscale(100%) opacity(0.5); - Skyline 可能不支持，已移除 */
+  opacity: 0.5; /* 保留透明度效果 */
+}
+
+.unlock-badge {
+  position: absolute;
+  top: -8rpx;
+  right: -8rpx;
+  width: 32rpx;
+  height: 32rpx;
+  background: #4CAF50;
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18rpx;
+  font-weight: bold;
+  box-shadow: 0 2rpx 8rpx rgba(76, 175, 80, 0.3);
+}
+
+/* 成就信息 */
+.achievement-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.achievement-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10rpx;
+  /* Skyline 不支持 gap 属性，使用 margin 替代 */
+}
+
+.achievement-header .achievement-icon,
+.achievement-header .achievement-title {
+  margin-right: 15rpx;
+}
+
+.achievement-header .achievement-title:last-child {
+  margin-right: 0;
+}
+
+.achievement-name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.difficulty-badge {
+  padding: 6rpx 12rpx;
+  border-radius: 12rpx;
+  font-size: 20rpx;
+  font-weight: 500;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.difficulty-easy {
+  background: #4CAF50;
+}
+
+.difficulty-medium {
+  background: #FF9800;
+}
+
+.difficulty-hard {
+  background: #F44336;
+}
+
+.difficulty-legendary {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  box-shadow: 0 2rpx 8rpx rgba(255, 215, 0, 0.3);
+}
+
+.achievement-description {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.4;
+  margin-bottom: 15rpx;
+  display: block;
+}
+
+/* 进度条 */
+.progress-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15rpx;
+  /* Skyline 不支持 gap 属性，使用 margin 替代 */
+}
+
+.progress-section .progress-bar,
+.progress-section .progress-text {
+  margin-bottom: 15rpx;
+}
+
+.progress-section .progress-text:last-child {
+  margin-bottom: 0;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 8rpx;
+  background: #f0f0f0;
+  border-radius: 4rpx;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  border-radius: 4rpx;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  font-size: 22rpx;
+  color: #999;
+  white-space: nowrap;
+}
+
+/* 成就底部 */
+.achievement-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* Skyline 不支持 gap 属性，使用 margin 替代 */
+}
+
+.achievement-footer .achievement-date,
+.achievement-footer .achievement-score {
+  margin-right: 15rpx;
+}
+
+.achievement-footer .achievement-score:last-child {
+  margin-right: 0;
+}
+
+.reward-text {
+  font-size: 24rpx;
+  color: #667eea;
+  font-weight: 500;
+}
+
+.unlock-time {
+  font-size: 22rpx;
+  color: #999;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 80rpx 40rpx;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20rpx;
+  margin: 40rpx 0;
+}
+
+.empty-icon {
+  font-size: 120rpx;
+  display: block;
+  margin-bottom: 20rpx;
+  opacity: 0.3;
+}
+
+.empty-text {
+  font-size: 32rpx;
+  color: #666;
+  display: block;
+  margin-bottom: 10rpx;
+}
+
+.empty-hint {
+  font-size: 26rpx;
+  color: #999;
+  display: block;
+}
+
+/* 分享按钮 */
+.share-section {
+  margin-top: 40rpx;
+  text-align: center;
+}
+
+.share-btn {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #ffffff;
+  border-radius: 50rpx;
+  padding: 25rpx 50rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  /* Skyline 不支持 gap 属性，使用 margin 替代 */
+  box-shadow: 0 8rpx 32rpx rgba(102, 126, 234, 0.3);
+}
+
+.share-btn .share-icon,
+.share-btn .share-text {
+  margin-right: 15rpx;
+}
+
+.share-btn .share-text:last-child {
+  margin-right: 0;
+}
+
+.share-btn {
+  transition: all 0.3s ease;
+  border: none;
+}
+
+/* .share-btn:active - Skyline 不支持 :active 伪类，已移除 */
+
+.share-icon {
+  font-size: 32rpx;
+}
+
+/* 响应式设计 */
+@media (max-width: 750rpx) {
+  .achievements-container {
+    padding: 15rpx;
+  }
+  
+  .achievement-item {
+    padding: 25rpx;
+    /* Skyline 不支持 gap 属性，使用 margin 替代 */
+  }
+  
+  .achievement-item .achievement-icon,
+  .achievement-item .achievement-content {
+    margin-right: 20rpx;
+  }
+
+  .achievement-item .achievement-content:last-child {
+    margin-right: 0;
+  }
+  
+  .achievement-name {
+    font-size: 28rpx;
+  }
+  
+  .icon-text {
+    font-size: 50rpx;
+  }
+  
+  .filter-controls {
+    padding: 25rpx;
+  }
+}
+
+/* 兼容性增强样式 */
+.filter-btn,
+.sort-btn,
+.category-btn,
+.achievement-item,
+.share-btn {
+  will-change: transform, opacity; /* 强制硬件加速 */
+}
+
+/* 触摸优化 */
+.filter-btn,
+.sort-btn,
+.category-btn,
+.achievement-item,
+.share-btn {
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+}
+
+/* 触摸反馈效果 */
+.filter-btn.touching,
+.sort-btn.touching,
+.category-btn.touching,
+.achievement-item.touching,
+.share-btn.touching {
+  transform: scale(0.95);
+  transition: transform 0.1s ease;
+}
+
+/* 渲染模式条件样式 */
+/* Skyline 模式优化 */
+
+.skyline-mode .achievement-item {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.skyline-mode .share-btn {
+  transition: all 0.2s ease;
+}
+
+.skyline-mode .page-header,
+.skyline-mode .achievement-item,
+.skyline-mode .empty-state {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+/* WebView 模式优化 */
+
+.webview-mode .achievement-item {
+  transition: all 0.3s ease;
+}
+
+.webview-mode .share-btn {
+  transition: all 0.3s ease;
+}
+
+.webview-mode .page-header,
+.webview-mode .achievement-item,
+.webview-mode .empty-state {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* 动画效果 */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.achievement-item {
+  animation: slideInUp 0.3s ease-out;
+}
+
+.achievement-item:nth-child(1) { animation-delay: 0.1s; }
+.achievement-item:nth-child(2) { animation-delay: 0.2s; }
+.achievement-item:nth-child(3) { animation-delay: 0.3s; }
+.achievement-item:nth-child(4) { animation-delay: 0.4s; }
+.achievement-item:nth-child(5) { animation-delay: 0.5s; }

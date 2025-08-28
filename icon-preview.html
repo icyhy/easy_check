@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微信小程序图标预览</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 40px;
+        }
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        .icon-item {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+        .icon-item h3 {
+            margin: 0 0 15px 0;
+            color: #333;
+            font-size: 18px;
+        }
+        .icon-display {
+            margin: 20px 0;
+        }
+        .icon-display img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            margin: 0 10px;
+        }
+        .icon-info {
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+        }
+        .comparison {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .comparison div {
+            text-align: center;
+        }
+        .comparison span {
+            display: block;
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+        .specs {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+        .specs h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .specs ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .specs li {
+            margin: 8px 0;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 微信小程序图标设计</h1>
+        
+        <div class="icon-grid">
+            <div class="icon-item">
+                <h3>📅 打卡功能</h3>
+                <div class="comparison">
+                    <div>
+                        <img src="images/checkin-inactive.png" alt="未选中">
+                        <span>未选中</span>
+                    </div>
+                    <div style="font-size: 24px; color: #ccc;">⇄</div>
+                    <div>
+                        <img src="images/checkin-new.png" alt="选中">
+                        <span>选中</span>
+                    </div>
+                </div>
+                <div class="icon-info">
+                    <strong>设计理念：</strong>日历 + 勾选标记<br>
+                    <strong>颜色：</strong>绿色 (#4CAF50) - 代表完成和成功<br>
+                    <strong>状态：</strong>灰色 (#9E9E9E) - 未选中状态
+                </div>
+            </div>
+            
+            <div class="icon-item">
+                <h3>📋 任务管理</h3>
+                <div class="comparison">
+                    <div>
+                        <img src="images/tasks-inactive.png" alt="未选中">
+                        <span>未选中</span>
+                    </div>
+                    <div style="font-size: 24px; color: #ccc;">⇄</div>
+                    <div>
+                        <img src="images/tasks-new.png" alt="选中">
+                        <span>选中</span>
+                    </div>
+                </div>
+                <div class="icon-info">
+                    <strong>设计理念：</strong>清单 + 多状态任务项<br>
+                    <strong>颜色：</strong>蓝色 (#2196F3) - 代表专业和效率<br>
+                    <strong>状态：</strong>灰色 (#9E9E9E) - 未选中状态
+                </div>
+            </div>
+            
+            <div class="icon-item">
+                <h3>🏆 成就系统</h3>
+                <div class="comparison">
+                    <div>
+                        <img src="images/achievements-inactive.png" alt="未选中">
+                        <span>未选中</span>
+                    </div>
+                    <div style="font-size: 24px; color: #ccc;">⇄</div>
+                    <div>
+                        <img src="images/achievements-new.png" alt="选中">
+                        <span>选中</span>
+                    </div>
+                </div>
+                <div class="icon-info">
+                    <strong>设计理念：</strong>奖杯 + 装饰星星<br>
+                    <strong>颜色：</strong>橙色 (#FF9800) - 代表荣誉和成就<br>
+                    <strong>状态：</strong>灰色 (#9E9E9E) - 未选中状态
+                </div>
+            </div>
+        </div>
+        
+        <div class="specs">
+            <h3>📐 设计规范</h3>
+            <ul>
+                <li><strong>尺寸：</strong>144×144px (符合微信小程序推荐规范)</li>
+                <li><strong>格式：</strong>PNG (高清晰度，支持透明背景)</li>
+                <li><strong>风格：</strong>扁平化设计，简洁明了</li>
+                <li><strong>色彩：</strong>每个图标使用单一主色调，符合功能特性</li>
+                <li><strong>状态设计：</strong>选中状态使用功能色彩，未选中状态统一使用灰色 (#9E9E9E)</li>
+                <li><strong>兼容性：</strong>圆形裁切适配，确保在各种显示场景下效果良好</li>
+                <li><strong>可识别性：</strong>图标语义清晰，用户一眼就能理解功能</li>
+                <li><strong>TabBar集成：</strong>已更新app.json配置，使用新图标路径</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

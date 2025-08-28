@@ -1,0 +1,43 @@
+{
+  "name": "easy-check",
+  "version": "1.0.0",
+  "description": "自律打卡小程序 - 通过色块消除游戏化方式培养自律习惯",
+  "main": "app.js",
+  "scripts": {
+    "dev": "微信开发者工具打开项目",
+    "build": "微信开发者工具构建项目",
+    "preview": "微信开发者工具预览项目"
+  },
+  "keywords": [
+    "微信小程序",
+    "自律打卡",
+    "习惯养成",
+    "游戏化",
+    "TypeScript",
+    "Skyline渲染引擎"
+  ],
+  "author": "开发者",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "项目仓库地址"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "miniprogram": {
+    "name": "自律打卡",
+    "appid": "你的小程序AppID",
+    "version": "1.0.0",
+    "description": "通过色块消除游戏化方式培养自律习惯的打卡小程序"
+  },
+  "devDependencies": {
+    "@types/wechat-miniprogram": "^3.4.0",
+    "typescript": "^4.9.0"
+  },
+  "dependencies": {},
+  "browserslist": [
+    "iOS >= 10",
+    "Android >= 6.0"
+  ]
+}

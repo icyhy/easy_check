@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "Canvas渲染测试",
+  "navigationBarBackgroundColor": "#1890ff",
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#f5f5f5",
+  "enablePullDownRefresh": false,
+  "disableScroll": true
+}

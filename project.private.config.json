@@ -1,0 +1,7 @@
+{
+  "setting": {
+    "compileHotReLoad": true,
+    "skylineRenderEnable": false
+  },
+  "libVersion": "3.9.2"
+}

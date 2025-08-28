@@ -1,0 +1,60 @@
+<!--Canvas API兼容性测试页面-->
+<view class="container">
+  <view class="header">
+    <text class="title">Canvas API兼容性测试</text>
+    <text class="subtitle">测试Canvas 2D API和传统Canvas API的降级兼容方案</text>
+  </view>
+
+  <!-- Canvas测试区域 -->
+  <view class="canvas-section">
+    <view class="canvas-item">
+      <text class="canvas-label">Canvas 2D API测试</text>
+      <canvas 
+        id="test-canvas-2d" 
+        type="2d" 
+        class="test-canvas"
+      ></canvas>
+    </view>
+    
+    <view class="canvas-item">
+      <text class="canvas-label">传统Canvas API测试</text>
+      <canvas 
+        canvas-id="legacy-canvas" 
+        class="test-canvas"
+      ></canvas>
+    </view>
+  </view>
+
+  <!-- 当前测试状态 -->
+  <view class="status-section">
+    <text class="status-label">当前状态:</text>
+    <text class="status-text">{{currentTest}}</text>
+  </view>
+
+  <!-- 控制按钮 -->
+  <view class="control-section">
+    <button class="control-btn primary" bindtap="onRetestTap">重新测试</button>
+    <button class="control-btn secondary" bindtap="onClearTap">清空结果</button>
+  </view>
+
+  <!-- 测试结果 -->
+  <view class="results-section">
+    <text class="results-title">测试结果</text>
+    
+    <view wx:if="{{testResults.length === 0}}" class="no-results">
+      <text>暂无测试结果</text>
+    </view>
+    
+    <view wx:for="{{testResults}}" wx:key="name" class="result-item {{item.success ? 'success' : 'failure'}}">
+      <view class="result-header">
+        <text class="result-name">{{item.name}}</text>
+        <text class="result-status">{{item.success ? '✓ 通过' : '✗ 失败'}}</text>
+      </view>
+      
+      <view class="result-content">
+        <text class="result-message">{{item.message}}</text>
+        <text class="result-details">{{item.details}}</text>
+      </view>
+    </view>
+  </view>
+</view>

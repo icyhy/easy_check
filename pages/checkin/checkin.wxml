@@ -1,0 +1,110 @@
+<!--自律打卡页面 - 核心打卡界面-->
+<view class="checkin-page">
+  <!-- 自定义导航栏 -->
+  <view class="custom-navbar" style="padding-top: {{statusBarHeight}}px; height: {{navBarHeight}}px;">
+    <view class="navbar-content">
+      <text class="navbar-title">每日打卡</text>
+      <view class="navbar-date">{{currentDate}}</view>
+    </view>
+  </view>
+
+  <!-- 打卡主体区域 -->
+  <scroll-view class="checkin-container" style="margin-top: {{navBarHeight + statusBarHeight}}px; height: calc(100vh - {{navBarHeight + statusBarHeight}}px);" scroll-y="true">
+    <!-- Canvas 打卡区域 -->
+    <view class="canvas-container">
+      <canvas 
+      type="2d" 
+      id="checkinCanvas" 
+      class="checkin-canvas" 
+      bindtouchstart="onCanvasTouchStart" 
+      bindtouchend="onCanvasTouchEnd" 
+      bindtap="onCanvasTap"
+      bindlongtap="onCanvasLongTap"
+    ></canvas>
+      
+      <!-- 名言文字覆盖层 -->
+      <view class="quote-overlay" wx:if="{{allTasksCompleted}}">
+        <view class="quote-content">
+          <text class="quote-text">"{{todayQuote.text}}"</text>
+          <text class="quote-author">— {{todayQuote.author}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 打卡状态信息 -->
+    <view class="checkin-info">
+      <view class="info-card">
+        <view class="info-item">
+          <text class="info-label">今日得分</text>
+          <text class="info-value score">{{todayScore}}</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">完成任务</text>
+          <text class="info-value">{{completedTasks}}/{{totalTasks}}</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">完成率</text>
+          <text class="info-value">{{completionRate}}%</text>
+        </view>
+      </view>
+      
+      <!-- 调试控制 -->
+      <view class="debug-controls" wx:if="{{debugMode}}">
+        <button class="debug-btn" size="mini" bindtap="toggleRenderer">
+          {{useSimpleRenderer ? '切换到复杂模式' : '切换到简单模式'}}
+        </button>
+        <text class="debug-info">当前: {{useSimpleRenderer ? '简单网格' : '泰森多边形'}}</text>
+      </view>
+    </view>
+
+    <!-- 任务列表 -->
+    <view class="tasks-section">
+      <view class="section-header">
+        <text class="section-title">今日任务</text>
+        <text class="section-subtitle">双击色块完成任务</text>
+      </view>
+      
+      <view class="tasks-list">
+        <view 
+          wx:for="{{todayTasks}}" 
+          wx:key="id"
+          class="task-item {{item.completed ? 'completed' : ''}}"
+        >
+          <view class="task-info">
+            <view class="task-header">
+              <text class="task-name">{{item.name}}</text>
+              <view class="difficulty-tag difficulty-{{item.difficulty}}">
+                {{item.difficultyText}}
+              </view>
+            </view>
+            <text class="task-description" wx:if="{{item.description}}">{{item.description}}</text>
+          </view>
+          
+          <view class="task-status">
+            <view class="task-score">+{{item.score}}</view>
+            <view class="task-check {{item.completed ? 'checked' : ''}}">
+              <text class="check-icon">✓</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 完成提示 -->
+    <view class="completion-modal {{showCompletionModal ? 'show' : ''}}" catchtap="hideCompletionModal">
+      <view class="modal-content" catchtap="stopPropagation">
+        <view class="modal-header">
+          <text class="modal-title">🎉 Perfect Day!</text>
+        </view>
+        <view class="modal-body">
+          <text class="modal-text">恭喜你完成了今天的所有任务！</text>
+          <text class="modal-score">今日得分：{{todayScore}} 分</text>
+        </view>
+        <view class="modal-actions">
+          <button class="btn btn-primary" bindtap="shareCheckinResult">分享成果</button>
+          <button class="btn btn-secondary" bindtap="hideCompletionModal">继续努力</button>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</view>

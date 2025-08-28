@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>矩形图像分割算法测试</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 300;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .canvas-container {
+            text-align: center;
+            margin-bottom: 30px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+        }
+        
+        #canvas {
+            border: 2px solid #333;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            background: white;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .control-group label {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        input[type="range"] {
+            width: 150px;
+            height: 6px;
+            border-radius: 3px;
+            background: #ddd;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #4CAF50;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        
+        button {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .info-panel {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .info-panel h3 {
+            margin-top: 0;
+            color: #333;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .stat-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .algorithm-info {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .algorithm-info h4 {
+            margin-top: 0;
+            color: #1976D2;
+        }
+        
+        .algorithm-info p {
+            margin-bottom: 0;
+            line-height: 1.6;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>矩形图像分割算法测试</h1>
+            <p>基于Voronoi图的多边形分割可视化</p>
+        </div>
+        
+        <div class="content">
+            <div class="canvas-container">
+                <canvas id="canvas" width="600" height="400"></canvas>
+            </div>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <label for="polygonCount">多边形数量</label>
+                    <input type="range" id="polygonCount" min="3" max="12" value="5">
+                    <span id="polygonCountValue">5</span>
+                </div>
+                
+                <div class="control-group">
+                    <label for="rectWidth">矩形宽度</label>
+                    <input type="range" id="rectWidth" min="200" max="500" value="400">
+                    <span id="rectWidthValue">400</span>
+                </div>
+                
+                <div class="control-group">
+                    <label for="rectHeight">矩形高度</label>
+                    <input type="range" id="rectHeight" min="150" max="350" value="250">
+                    <span id="rectHeightValue">250</span>
+                </div>
+                
+                <button onclick="generateSplit()">重新分割</button>
+                <button onclick="clearCanvas()">清空画布</button>
+            </div>
+            
+            <div class="info-panel">
+                <h3>分割统计信息</h3>
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="totalPolygons">0</div>
+                        <div class="stat-label">多边形数量</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="totalArea">0</div>
+                        <div class="stat-label">总面积</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="avgArea">0</div>
+                        <div class="stat-label">平均面积</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="processingTime">0ms</div>
+                        <div class="stat-label">处理时间</div>
+                    </div>
+                </div>
+                
+                <div class="algorithm-info">
+                    <h4>算法说明</h4>
+                    <p><strong>递归二分分割算法</strong> - 精确控制分割数量的新方法：</p>
+                    <ul>
+                        <li><strong>递归二分策略</strong>：将矩形递归地分割成两部分，直到达到目标数量，确保精确的多边形数量控制</li>
+                        <li><strong>智能分割方向</strong>：根据矩形的长宽比智能选择水平或垂直分割方向，保持多边形形状的合理性</li>
+                        <li><strong>均衡分配</strong>：每次分割时尽量均匀分配子区域的目标数量，避免产生过小的多边形</li>
+                        <li><strong>随机分割位置</strong>：在30%-70%的范围内随机选择分割位置，增加分割结果的自然性</li>
+                        <li><strong>边界扰动</strong>：对生成的矩形边界进行随机扰动，使多边形看起来更加自然和有机</li>
+                        <li><strong>动态顶点增加</strong>：在较长的边上随机添加额外顶点，增加多边形的复杂度和视觉效果</li>
+                    </ul>
+                    <p>相比Voronoi算法，递归二分法能够精确控制数量、保持大小均衡、性能优异且形状自然。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Canvas和上下文
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // 控制元素
+        const polygonCountSlider = document.getElementById('polygonCount');
+        const rectWidthSlider = document.getElementById('rectWidth');
+        const rectHeightSlider = document.getElementById('rectHeight');
+        
+        // 显示值的元素
+        const polygonCountValue = document.getElementById('polygonCountValue');
+        const rectWidthValue = document.getElementById('rectWidthValue');
+        const rectHeightValue = document.getElementById('rectHeightValue');
+        
+        // 统计信息元素
+        const totalPolygonsEl = document.getElementById('totalPolygons');
+        const totalAreaEl = document.getElementById('totalArea');
+        const avgAreaEl = document.getElementById('avgArea');
+        const processingTimeEl = document.getElementById('processingTime');
+        
+        // 当前分割结果
+        let currentPolygons = [];
+        
+        // 选中的多边形
+        let selectedPolygon = null;
+        
+        /**
+         * 初始化滑块事件监听器
+         */
+        function initSliders() {
+            polygonCountSlider.addEventListener('input', (e) => {
+                polygonCountValue.textContent = e.target.value;
+            });
+            
+            rectWidthSlider.addEventListener('input', (e) => {
+                rectWidthValue.textContent = e.target.value;
+            });
+            
+            rectHeightSlider.addEventListener('input', (e) => {
+                rectHeightValue.textContent = e.target.value;
+            });
+        }
+        
+        /**
+         * 生成泊松圆盘采样的种子点
+         * @param {number} width - 区域宽度
+         * @param {number} height - 区域高度
+         * @param {number} count - 目标点数量
+         * @param {number} minDistance - 最小距离
+         * @returns {Array} 种子点数组
+         */
+        function generateSeedPoints(width, height, count, minDistance = null) {
+            // 根据区域大小和点数量动态计算最小距离，确保多边形不会太小
+            if (!minDistance) {
+                const area = width * height;
+                const avgAreaPerPoint = area / count;
+                // 假设每个区域是圆形，计算半径，然后设置最小距离为直径的0.8倍
+                const avgRadius = Math.sqrt(avgAreaPerPoint / Math.PI);
+                minDistance = Math.max(40, avgRadius * 1.6); // 最小40像素，确保点击区域足够大
+            }
+            const points = [];
+            const maxAttempts = 30;
+            const gridSize = minDistance / Math.sqrt(2);
+            const grid = [];
+            const gridWidth = Math.ceil(width / gridSize);
+            const gridHeight = Math.ceil(height / gridSize);
+            
+            // 初始化网格
+            for (let i = 0; i < gridWidth * gridHeight; i++) {
+                grid[i] = null;
+            }
+            
+            // 添加第一个点
+            const firstPoint = {
+                x: Math.random() * width,
+                y: Math.random() * height
+            };
+            points.push(firstPoint);
+            
+            const gridX = Math.floor(firstPoint.x / gridSize);
+            const gridY = Math.floor(firstPoint.y / gridSize);
+            grid[gridY * gridWidth + gridX] = firstPoint;
+            
+            const activeList = [firstPoint];
+            
+            // 泊松圆盘采样
+            while (activeList.length > 0 && points.length < count) {
+                const randomIndex = Math.floor(Math.random() * activeList.length);
+                const point = activeList[randomIndex];
+                let found = false;
+                
+                for (let i = 0; i < maxAttempts; i++) {
+                    const angle = Math.random() * 2 * Math.PI;
+                    const radius = minDistance + Math.random() * minDistance;
+                    const newX = point.x + Math.cos(angle) * radius;
+                    const newY = point.y + Math.sin(angle) * radius;
+                    
+                    if (newX >= 0 && newX < width && newY >= 0 && newY < height) {
+                        const newGridX = Math.floor(newX / gridSize);
+                        const newGridY = Math.floor(newY / gridSize);
+                        
+                        let valid = true;
+                        
+                        // 检查周围网格
+                        for (let dy = -2; dy <= 2; dy++) {
+                            for (let dx = -2; dx <= 2; dx++) {
+                                const checkX = newGridX + dx;
+                                const checkY = newGridY + dy;
+                                
+                                if (checkX >= 0 && checkX < gridWidth && checkY >= 0 && checkY < gridHeight) {
+                                    const neighbor = grid[checkY * gridWidth + checkX];
+                                    if (neighbor) {
+                                        const dist = Math.sqrt(
+                                            Math.pow(newX - neighbor.x, 2) + Math.pow(newY - neighbor.y, 2)
+                                        );
+                                        if (dist < minDistance) {
+                                            valid = false;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                            if (!valid) break;
+                        }
+                        
+                        if (valid) {
+                            const newPoint = { x: newX, y: newY };
+                            points.push(newPoint);
+                            grid[newGridY * gridWidth + newGridX] = newPoint;
+                            activeList.push(newPoint);
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+                
+                if (!found) {
+                    activeList.splice(randomIndex, 1);
+                }
+            }
+            
+            // 如果点数不够，使用更灵活的策略添加点
+            let relaxationFactor = 0.7;
+            while (points.length < count) {
+                let attempts = 0;
+                let validPoint = false;
+                
+                while (!validPoint && attempts < 100) {
+                    const newPoint = {
+                        x: Math.random() * width,
+                        y: Math.random() * height
+                    };
+                    
+                    let minDist = Infinity;
+                    for (const existingPoint of points) {
+                        const dist = Math.sqrt(
+                            Math.pow(newPoint.x - existingPoint.x, 2) + 
+                            Math.pow(newPoint.y - existingPoint.y, 2)
+                        );
+                        minDist = Math.min(minDist, dist);
+                    }
+                    
+                    if (minDist > minDistance * relaxationFactor) {
+                        points.push(newPoint);
+                        validPoint = true;
+                    }
+                    attempts++;
+                }
+                
+                if (!validPoint) {
+                    // 如果仍然找不到合适的点，逐步放宽距离要求
+                    relaxationFactor *= 0.9;
+                    if (relaxationFactor < 0.3) {
+                        // 如果放宽到30%仍然不行，直接添加随机点
+                        points.push({
+                            x: Math.random() * width,
+                            y: Math.random() * height
+                        });
+                    }
+                }
+            }
+            
+            return points;
+        }
+        
+        /**
+         * 计算两点间的中垂线（半平面）
+         * @param {Object} p1 - 第一个点
+         * @param {Object} p2 - 第二个点
+         * @returns {Object} 半平面参数 {a, b, c}
+         */
+        function getPerpendicularBisector(p1, p2) {
+            const midX = (p1.x + p2.x) / 2;
+            const midY = (p1.y + p2.y) / 2;
+            const dx = p2.x - p1.x;
+            const dy = p2.y - p1.y;
+            
+            // 法向量 (a, b)，使得 ax + by + c = 0
+            const a = dx;
+            const b = dy;
+            const c = -(a * midX + b * midY);
+            
+            return { a, b, c };
+        }
+        
+        /**
+         * 使用Sutherland-Hodgman算法裁剪多边形
+         * @param {Array} polygon - 多边形顶点数组
+         * @param {Object} halfPlane - 半平面参数 {a, b, c}
+         * @returns {Array} 裁剪后的多边形顶点
+         */
+        function clipPolygonByHalfPlane(polygon, halfPlane) {
+            if (polygon.length === 0) return [];
+            
+            const { a, b, c } = halfPlane;
+            const result = [];
+            
+            for (let i = 0; i < polygon.length; i++) {
+                const current = polygon[i];
+                const next = polygon[(i + 1) % polygon.length];
+                
+                const currentSide = a * current.x + b * current.y + c;
+                const nextSide = a * next.x + b * next.y + c;
+                
+                if (nextSide >= 0) { // next点在内侧
+                    if (currentSide < 0) { // current在外侧，需要计算交点
+                        const intersection = getLineIntersection(current, next, halfPlane);
+                        if (intersection) {
+                            result.push(intersection);
+                        }
+                    }
+                    result.push(next);
+                } else if (currentSide >= 0) { // current在内侧，next在外侧
+                    const intersection = getLineIntersection(current, next, halfPlane);
+                    if (intersection) {
+                        result.push(intersection);
+                    }
+                }
+            }
+            
+            return result;
+        }
+        
+        /**
+         * 计算线段与半平面的交点
+         * @param {Object} p1 - 线段起点
+         * @param {Object} p2 - 线段终点
+         * @param {Object} halfPlane - 半平面参数
+         * @returns {Object|null} 交点坐标
+         */
+        function getLineIntersection(p1, p2, halfPlane) {
+            const { a, b, c } = halfPlane;
+            const dx = p2.x - p1.x;
+            const dy = p2.y - p1.y;
+            
+            const denominator = a * dx + b * dy;
+            if (Math.abs(denominator) < 1e-10) return null;
+            
+            const t = -(a * p1.x + b * p1.y + c) / denominator;
+            
+            return {
+                x: p1.x + t * dx,
+                y: p1.y + t * dy
+            };
+        }
+        
+        /**
+         * 计算多边形面积
+         * @param {Array} polygon - 多边形顶点数组
+         * @returns {number} 面积
+         */
+        function calculatePolygonArea(polygon) {
+            if (polygon.length < 3) return 0;
+            
+            let area = 0;
+            for (let i = 0; i < polygon.length; i++) {
+                const j = (i + 1) % polygon.length;
+                area += polygon[i].x * polygon[j].y;
+                area -= polygon[j].x * polygon[i].y;
+            }
+            return Math.abs(area) / 2;
+        }
+        
+        /**
+         * 计算单个种子点的Voronoi多边形
+         * @param {Object} seed - 种子点
+         * @param {Array} allSeeds - 所有种子点
+         * @param {Object} bounds - 边界 {x, y, width, height}
+         * @returns {Array} Voronoi多边形顶点
+         */
+        function calculateVoronoiPolygon(seed, allSeeds, bounds) {
+            // 初始边界多边形（矩形）
+            let polygon = [
+                { x: bounds.x, y: bounds.y },
+                { x: bounds.x + bounds.width, y: bounds.y },
+                { x: bounds.x + bounds.width, y: bounds.y + bounds.height },
+                { x: bounds.x, y: bounds.y + bounds.height }
+            ];
+            
+            // 对每个其他种子点，用中垂线裁剪多边形
+            for (const otherSeed of allSeeds) {
+                if (otherSeed === seed) continue;
+                
+                const halfPlane = getPerpendicularBisector(seed, otherSeed);
+                polygon = clipPolygonByHalfPlane(polygon, halfPlane);
+                
+                if (polygon.length === 0) break;
+            }
+            
+            return polygon;
+        }
+        
+        /**
+         * 生成随机颜色
+         * @param {number} alpha - 透明度
+         * @returns {string} RGBA颜色字符串
+         */
+        function getRandomColor(alpha = 0.7) {
+            const hue = Math.random() * 360;
+            const saturation = 60 + Math.random() * 40; // 60-100%
+            const lightness = 45 + Math.random() * 30;  // 45-75%
+            
+            return `hsla(${hue}, ${saturation}%, ${lightness}%, ${alpha})`;
+        }
+        
+        /**
+         * 绘制多边形
+         * @param {Array} polygon - 多边形顶点
+         * @param {string} fillColor - 填充颜色
+         * @param {string} strokeColor - 边框颜色
+         * @param {number} lineWidth - 线宽
+         */
+        function drawPolygon(polygon, fillColor, strokeColor = '#333', lineWidth = 2) {
+            if (polygon.length < 3) return;
+            
+            ctx.beginPath();
+            ctx.moveTo(polygon[0].x, polygon[0].y);
+            
+            for (let i = 1; i < polygon.length; i++) {
+                ctx.lineTo(polygon[i].x, polygon[i].y);
+            }
+            
+            ctx.closePath();
+            
+            // 填充
+            ctx.fillStyle = fillColor;
+            ctx.fill();
+            
+            // 边框
+            ctx.strokeStyle = strokeColor;
+            ctx.lineWidth = lineWidth;
+            ctx.stroke();
+        }
+        
+        /**
+         * 绘制种子点
+         * @param {Array} seeds - 种子点数组
+         */
+        function drawSeedPoints(seeds) {
+            seeds.forEach((seed, index) => {
+                ctx.beginPath();
+                ctx.arc(seed.x, seed.y, 4, 0, 2 * Math.PI);
+                ctx.fillStyle = '#ff4444';
+                ctx.fill();
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                // 绘制种子点编号
+                ctx.fillStyle = '#333';
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText((index + 1).toString(), seed.x, seed.y - 8);
+            });
+        }
+        
+        /**
+         * 更新统计信息
+         * @param {Array} polygons - 多边形数组
+         * @param {number} processingTime - 处理时间（毫秒）
+         */
+        function updateStats(polygons, processingTime) {
+            const totalArea = polygons.reduce((sum, poly) => sum + poly.area, 0);
+            const avgArea = polygons.length > 0 ? totalArea / polygons.length : 0;
+            
+            totalPolygonsEl.textContent = polygons.length;
+            totalAreaEl.textContent = Math.round(totalArea);
+            avgAreaEl.textContent = Math.round(avgArea);
+            processingTimeEl.textContent = processingTime + 'ms';
+        }
+        
+        /**
+         * 基于递归二分法的矩形分割算法，确保无缝隙分割
+         * @param {Object} rect - 矩形区域 {x, y, width, height}
+         * @param {number} targetCount - 目标分割数量
+         * @returns {Array} 分割后的多边形数组
+         */
+        function recursiveBinaryPartition(rect, targetCount) {
+            if (targetCount <= 1) {
+                // 确保顶点坐标精确到整数，避免浮点误差
+                return [[
+                    { x: Math.round(rect.x), y: Math.round(rect.y) },
+                    { x: Math.round(rect.x + rect.width), y: Math.round(rect.y) },
+                    { x: Math.round(rect.x + rect.width), y: Math.round(rect.y + rect.height) },
+                    { x: Math.round(rect.x), y: Math.round(rect.y + rect.height) }
+                ]];
+            }
+            
+            // 计算分割比例，尽量均匀分配
+            const leftCount = Math.ceil(targetCount / 2);
+            const rightCount = targetCount - leftCount;
+            
+            // 决定分割方向（水平或垂直）
+            const isHorizontal = rect.width > rect.height ? 
+                Math.random() > 0.3 : Math.random() > 0.7;
+            
+            let leftRect, rightRect;
+            
+            if (isHorizontal) {
+                // 水平分割
+                const minSplit = rect.width * 0.3;
+                const maxSplit = rect.width * 0.7;
+                const splitPos = minSplit + Math.random() * (maxSplit - minSplit);
+                
+                // 确保分割位置为整数，避免缝隙
+                const exactSplitPos = Math.round(splitPos);
+                
+                leftRect = {
+                    x: rect.x,
+                    y: rect.y,
+                    width: exactSplitPos,
+                    height: rect.height
+                };
+                
+                rightRect = {
+                    x: rect.x + exactSplitPos,
+                    y: rect.y,
+                    width: rect.width - exactSplitPos,
+                    height: rect.height
+                };
+            } else {
+                // 垂直分割
+                const minSplit = rect.height * 0.3;
+                const maxSplit = rect.height * 0.7;
+                const splitPos = minSplit + Math.random() * (maxSplit - minSplit);
+                
+                // 确保分割位置为整数，避免缝隙
+                const exactSplitPos = Math.round(splitPos);
+                
+                leftRect = {
+                    x: rect.x,
+                    y: rect.y,
+                    width: rect.width,
+                    height: exactSplitPos
+                };
+                
+                rightRect = {
+                    x: rect.x,
+                    y: rect.y + exactSplitPos,
+                    width: rect.width,
+                    height: rect.height - exactSplitPos
+                };
+            }
+            
+            // 递归分割
+            const leftPolygons = recursiveBinaryPartition(leftRect, leftCount);
+            const rightPolygons = recursiveBinaryPartition(rightRect, rightCount);
+            
+            return [...leftPolygons, ...rightPolygons];
+        }
+        
+        /**
+         * 对多边形进行受约束的随机扰动，确保严格限制在矩形边界内且无缝隙
+         * @param {Array} polygon - 多边形顶点数组
+         * @param {number} disturbanceLevel - 扰动强度 (0-1)
+         * @param {Object} bounds - 边界约束 {x, y, width, height}
+         * @returns {Array} 扰动后的多边形顶点
+         */
+        function disturbPolygon(polygon, disturbanceLevel = 0.1, bounds) {
+            if (polygon.length < 4) return polygon;
+            
+            const result = [];
+            const tolerance = 0.5; // 边界检测容差
+            
+            for (let i = 0; i < polygon.length; i++) {
+                const vertex = polygon[i];
+                const nextVertex = polygon[(i + 1) % polygon.length];
+                
+                // 检查当前顶点是否在矩形边界上（更严格的检测）
+                const isOnLeftBoundary = Math.abs(vertex.x - bounds.x) < tolerance;
+                const isOnRightBoundary = Math.abs(vertex.x - (bounds.x + bounds.width)) < tolerance;
+                const isOnTopBoundary = Math.abs(vertex.y - bounds.y) < tolerance;
+                const isOnBottomBoundary = Math.abs(vertex.y - (bounds.y + bounds.height)) < tolerance;
+                
+                const isOnBoundary = isOnLeftBoundary || isOnRightBoundary || isOnTopBoundary || isOnBottomBoundary;
+                
+                let disturbedVertex;
+                
+                if (isOnBoundary) {
+                    // 边界顶点完全不扰动，确保精确贴合
+                    disturbedVertex = { 
+                        x: Math.round(vertex.x), 
+                        y: Math.round(vertex.y) 
+                    };
+                } else {
+                    // 内部顶点可以进行有限扰动
+                    const edgeLength = Math.sqrt(
+                        Math.pow(nextVertex.x - vertex.x, 2) + 
+                        Math.pow(nextVertex.y - vertex.y, 2)
+                    );
+                    
+                    // 计算安全的扰动范围
+                    const maxDisturbance = Math.min(edgeLength * disturbanceLevel, 8);
+                    
+                    // 计算到边界的最小距离
+                    const distToLeft = vertex.x - bounds.x;
+                    const distToRight = (bounds.x + bounds.width) - vertex.x;
+                    const distToTop = vertex.y - bounds.y;
+                    const distToBottom = (bounds.y + bounds.height) - vertex.y;
+                    
+                    const minDistToBoundary = Math.min(distToLeft, distToRight, distToTop, distToBottom);
+                    
+                    // 限制扰动范围，确保不会超出边界
+                    const safeDisturbance = Math.min(maxDisturbance * 0.3, minDistToBoundary - 2);
+                    
+                    let disturbanceX = 0;
+                    let disturbanceY = 0;
+                    
+                    if (safeDisturbance > 1) {
+                        disturbanceX = (Math.random() - 0.5) * safeDisturbance;
+                        disturbanceY = (Math.random() - 0.5) * safeDisturbance;
+                    }
+                    
+                    disturbedVertex = {
+                        x: Math.round(vertex.x + disturbanceX),
+                        y: Math.round(vertex.y + disturbanceY)
+                    };
+                    
+                    // 双重检查，确保扰动后的点仍在边界内
+                    disturbedVertex.x = Math.max(bounds.x + 1, Math.min(bounds.x + bounds.width - 1, disturbedVertex.x));
+                    disturbedVertex.y = Math.max(bounds.y + 1, Math.min(bounds.y + bounds.height - 1, disturbedVertex.y));
+                }
+                
+                result.push(disturbedVertex);
+                
+                // 检查下一个顶点是否也在边界上
+                const nextIsOnBoundary = (
+                    Math.abs(nextVertex.x - bounds.x) < tolerance || 
+                    Math.abs(nextVertex.x - (bounds.x + bounds.width)) < tolerance || 
+                    Math.abs(nextVertex.y - bounds.y) < tolerance || 
+                    Math.abs(nextVertex.y - (bounds.y + bounds.height)) < tolerance
+                );
+                
+                // 只在内部边上添加额外顶点，且概率降低以避免过度复杂化
+                if (!isOnBoundary && !nextIsOnBoundary && Math.random() > 0.8) {
+                    const edgeLength = Math.sqrt(
+                        Math.pow(nextVertex.x - vertex.x, 2) + 
+                        Math.pow(nextVertex.y - vertex.y, 2)
+                    );
+                    
+                    if (edgeLength > 60) {
+                        const midX = (disturbedVertex.x + nextVertex.x) / 2;
+                        const midY = (disturbedVertex.y + nextVertex.y) / 2;
+                        
+                        // 确保中点也在安全范围内
+                        const safeMidX = Math.max(bounds.x + 2, Math.min(bounds.x + bounds.width - 2, midX));
+                        const safeMidY = Math.max(bounds.y + 2, Math.min(bounds.y + bounds.height - 2, midY));
+                        
+                        result.push({
+                            x: Math.round(safeMidX),
+                            y: Math.round(safeMidY)
+                        });
+                    }
+                }
+            }
+            
+            return result;
+        }
+        
+        /**
+         * 生成矩形分割
+         */
+        function generateSplit() {
+            const startTime = performance.now();
+            
+            // 清空画布
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // 获取参数
+            const polygonCount = parseInt(polygonCountSlider.value);
+            const rectWidth = parseInt(rectWidthSlider.value);
+            const rectHeight = parseInt(rectHeightSlider.value);
+            
+            // 计算矩形位置（居中）
+            const rectX = (canvas.width - rectWidth) / 2;
+            const rectY = (canvas.height - rectHeight) / 2;
+            
+            // 绘制原始矩形边框
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 3;
+            ctx.strokeRect(rectX, rectY, rectWidth, rectHeight);
+            
+            // 使用递归二分法进行分割
+            const baseRect = { x: rectX, y: rectY, width: rectWidth, height: rectHeight };
+            const polygons = recursiveBinaryPartition(baseRect, polygonCount);
+            
+            // 对多边形进行受约束的随机扰动，确保不超出边界
+            const disturbedPolygons = polygons.map(polygon => 
+                disturbPolygon(polygon, 0.12, baseRect)
+            );
+            
+            // 生成最终的多边形数据
+            currentPolygons = [];
+            disturbedPolygons.forEach((polygon, index) => {
+                const area = calculatePolygonArea(polygon);
+                const color = getRandomColor(0.6);
+                
+                currentPolygons.push({
+                    vertices: polygon,
+                    area: area,
+                    color: color,
+                    seed: null // 递归分割法不需要种子点
+                });
+                
+                // 绘制多边形
+                drawPolygon(polygon, color, '#333');
+            });
+            
+            // 绘制多边形编号
+            currentPolygons.forEach((poly, index) => {
+                // 计算多边形中心点
+                const centerX = poly.vertices.reduce((sum, v) => sum + v.x, 0) / poly.vertices.length;
+                const centerY = poly.vertices.reduce((sum, v) => sum + v.y, 0) / poly.vertices.length;
+                
+                // 绘制编号
+                ctx.fillStyle = '#333';
+                ctx.font = 'bold 14px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText((index + 1).toString(), centerX, centerY + 5);
+            });
+            
+            const endTime = performance.now();
+            const processingTime = Math.round(endTime - startTime);
+            
+            // 更新统计信息
+            updateStats(currentPolygons, processingTime);
+        }
+        
+        /**
+         * 清空画布
+         */
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            currentPolygons = [];
+            selectedPolygon = null;
+            updateStats([], 0);
+        }
+        
+        /**
+         * 检查点是否在多边形内部
+         * @param {Object} point - 点坐标 {x, y}
+         * @param {Array} polygon - 多边形顶点数组
+         * @returns {boolean} 是否在多边形内
+         */
+        function isPointInPolygon(point, polygon) {
+            let inside = false;
+            for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+                if (((polygon[i].y > point.y) !== (polygon[j].y > point.y)) &&
+                    (point.x < (polygon[j].x - polygon[i].x) * (point.y - polygon[i].y) / (polygon[j].y - polygon[i].y) + polygon[i].x)) {
+                    inside = !inside;
+                }
+            }
+            return inside;
+        }
+        
+        /**
+         * 处理Canvas双击事件
+         * @param {Event} event - 鼠标事件
+         */
+        function handleCanvasDoubleClick(event) {
+            const rect = canvas.getBoundingClientRect();
+            const clickPoint = {
+                x: event.clientX - rect.left,
+                y: event.clientY - rect.top
+            };
+            
+            // 查找被点击的多边形
+            let clickedPolygon = null;
+            for (const polygon of currentPolygons) {
+                if (isPointInPolygon(clickPoint, polygon.vertices)) {
+                    clickedPolygon = polygon;
+                    break;
+                }
+            }
+            
+            if (clickedPolygon) {
+                // 取消之前的选中状态
+                selectedPolygon = clickedPolygon;
+                
+                // 重新绘制所有多边形
+                redrawCanvas();
+                
+                // 高亮选中的多边形
+                drawPolygon(clickedPolygon.vertices, clickedPolygon.color, '#ff0000', 4);
+                
+                // 显示多边形信息
+                showPolygonInfo(clickedPolygon);
+            } else {
+                // 点击空白区域，取消选中
+                selectedPolygon = null;
+                redrawCanvas();
+                hidePolygonInfo();
+            }
+        }
+        
+        /**
+         * 重新绘制Canvas内容
+         */
+        function redrawCanvas() {
+            // 清空画布
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // 获取当前参数
+            const rectWidth = parseInt(rectWidthSlider.value);
+            const rectHeight = parseInt(rectHeightSlider.value);
+            const rectX = (canvas.width - rectWidth) / 2;
+            const rectY = (canvas.height - rectHeight) / 2;
+            
+            // 绘制原始矩形边框
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 3;
+            ctx.strokeRect(rectX, rectY, rectWidth, rectHeight);
+            
+            // 绘制所有多边形
+            currentPolygons.forEach(polygon => {
+                drawPolygon(polygon.vertices, polygon.color, '#333');
+            });
+            
+            // 绘制种子点
+            const seeds = currentPolygons.map(p => p.seed);
+            drawSeedPoints(seeds);
+        }
+        
+        /**
+         * 显示多边形信息
+         * @param {Object} polygon - 多边形对象
+         */
+        function showPolygonInfo(polygon) {
+            // 创建信息提示框
+            let infoBox = document.getElementById('polygonInfo');
+            if (!infoBox) {
+                infoBox = document.createElement('div');
+                infoBox.id = 'polygonInfo';
+                infoBox.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: rgba(0,0,0,0.8);
+                    color: white;
+                    padding: 15px;
+                    border-radius: 8px;
+                    font-size: 14px;
+                    z-index: 1000;
+                    max-width: 200px;
+                `;
+                document.body.appendChild(infoBox);
+            }
+            
+            infoBox.innerHTML = `
+                <h4 style="margin: 0 0 10px 0; color: #4CAF50;">多边形信息</h4>
+                <p><strong>面积:</strong> ${Math.round(polygon.area)} px²</p>
+                <p><strong>顶点数:</strong> ${polygon.vertices.length}</p>
+                <p><strong>种子点:</strong> (${Math.round(polygon.seed.x)}, ${Math.round(polygon.seed.y)})</p>
+                <p style="margin: 10px 0 0 0; font-size: 12px; color: #ccc;">双击其他区域取消选中</p>
+            `;
+            infoBox.style.display = 'block';
+        }
+        
+        /**
+         * 隐藏多边形信息
+         */
+        function hidePolygonInfo() {
+            const infoBox = document.getElementById('polygonInfo');
+            if (infoBox) {
+                infoBox.style.display = 'none';
+            }
+        }
+        
+        // 初始化
+        initSliders();
+        
+        // 添加Canvas双击事件监听器
+        canvas.addEventListener('dblclick', handleCanvasDoubleClick);
+        
+        generateSplit();
+    </script>
+</body>
+</html>
