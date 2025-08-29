@@ -1,0 +1,397 @@
+/* 专注页面样式 */
+
+.focus-container {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  padding: 0 20rpx;
+}
+
+/* 顶部统计区域 */
+.stats-section {
+  padding: 40rpx 0 30rpx;
+}
+
+.stats-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+
+.page-title {
+  font-size: 48rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.share-btn {
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+}
+
+.share-icon {
+  font-size: 32rpx;
+  color: #666;
+  font-weight: bold;
+}
+
+.today-stats {
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.stat-item:last-child {
+  border-bottom: none;
+}
+
+.stat-label {
+  font-size: 32rpx;
+  color: #333;
+}
+
+.stat-arrow {
+  font-size: 28rpx;
+  color: #999;
+}
+
+.focus-time .stat-value {
+  font-size: 28rpx;
+  color: #52c41a;
+  font-weight: 500;
+}
+
+.incomplete .stat-time {
+  font-size: 28rpx;
+  color: #faad14;
+  background-color: #fff7e6;
+  padding: 8rpx 16rpx;
+  border-radius: 12rpx;
+}
+
+/* 项目选择区域 */
+.projects-section {
+  margin: 40rpx 0;
+}
+
+.section-title {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 20rpx;
+  display: block;
+}
+
+.projects-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20rpx;
+}
+
+.project-item {
+  flex: 1;
+  min-width: 200rpx;
+  max-width: 220rpx;
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 30rpx 20rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.project-item.selected {
+  border: 2rpx solid #1890ff;
+  box-shadow: 0 4rpx 16rpx rgba(24, 144, 255, 0.2);
+}
+
+.project-icon {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16rpx;
+}
+
+.icon-text {
+  font-size: 36rpx;
+}
+
+.project-name {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 8rpx;
+}
+
+.project-time {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  position: absolute;
+  top: 20rpx;
+  right: 20rpx;
+}
+
+.time-icon {
+  font-size: 20rpx;
+  color: #52c41a;
+}
+
+.time-text {
+  font-size: 20rpx;
+  color: #52c41a;
+  font-weight: 500;
+}
+
+/* 专注计时器区域 */
+.timer-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 60rpx 0;
+}
+
+/* 时间选择 */
+.time-options {
+  display: flex;
+  gap: 20rpx;
+  margin-bottom: 60rpx;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.time-option {
+  padding: 16rpx 32rpx;
+  border-radius: 24rpx;
+  background-color: #fff;
+  border: 2rpx solid #e8e8e8;
+  font-size: 28rpx;
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.time-option.selected {
+  background-color: #1890ff;
+  border-color: #1890ff;
+  color: #fff;
+}
+
+/* 计时器显示 */
+.timer-display {
+  margin-bottom: 60rpx;
+}
+
+.timer-circle {
+  width: 400rpx;
+  height: 400rpx;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(#e8e8e8 0deg, #e8e8e8 360deg);
+  overflow: hidden;
+}
+
+.progress-fill {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(#1890ff 0deg, #e8e8e8 0deg);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+.timer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+  background-color: #fff;
+  width: 320rpx;
+  height: 320rpx;
+  border-radius: 50%;
+  justify-content: center;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.1);
+}
+
+.timer-text {
+  font-size: 72rpx;
+  font-weight: 600;
+  color: #333;
+  font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+}
+
+.timer-label {
+  font-size: 24rpx;
+  color: #666;
+  margin-top: 8rpx;
+}
+
+/* 控制按钮 */
+.timer-controls {
+  display: flex;
+  gap: 30rpx;
+}
+
+.start-btn {
+  background-color: #1890ff;
+  color: #fff;
+  padding: 24rpx 60rpx;
+  border-radius: 50rpx;
+  font-size: 32rpx;
+  font-weight: 500;
+  box-shadow: 0 4rpx 16rpx rgba(24, 144, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.start-btn:active {
+  transform: translateY(2rpx);
+  box-shadow: 0 2rpx 8rpx rgba(24, 144, 255, 0.3);
+}
+
+.control-buttons {
+  display: flex;
+  gap: 30rpx;
+}
+
+.control-btn {
+  padding: 20rpx 40rpx;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.resume-btn {
+  background-color: #52c41a;
+  color: #fff;
+  box-shadow: 0 4rpx 16rpx rgba(82, 196, 26, 0.3);
+}
+
+.pause-btn {
+  background-color: #faad14;
+  color: #fff;
+  box-shadow: 0 4rpx 16rpx rgba(250, 173, 20, 0.3);
+}
+
+.stop-btn {
+  background-color: #ff4d4f;
+  color: #fff;
+  box-shadow: 0 4rpx 16rpx rgba(255, 77, 79, 0.3);
+}
+
+.control-btn:active {
+  transform: translateY(2rpx);
+}
+
+/* 添加项目 */
+.add-project {
+  display: flex;
+  justify-content: center;
+  margin: 60rpx 0;
+}
+
+.add-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12rpx;
+  padding: 30rpx;
+  background-color: #fff;
+  border-radius: 20rpx;
+  border: 2rpx dashed #d9d9d9;
+  color: #999;
+  transition: all 0.3s ease;
+}
+
+.add-btn:active {
+  border-color: #1890ff;
+  color: #1890ff;
+}
+
+.add-icon {
+  font-size: 48rpx;
+  font-weight: 300;
+}
+
+.add-text {
+  font-size: 24rpx;
+}
+
+/* 底部占位 */
+.bottom-placeholder {
+  height: 120rpx;
+}
+
+/* 渲染模式适配 */
+.skyline-mode .project-item {
+  /* Skyline 模式下的特殊样式 */
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+}
+
+.skyline-mode .timer-content {
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
+}
+
+.webview-mode .project-item {
+  /* WebView 模式下的特殊样式 */
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.1);
+}
+
+.webview-mode .timer-content {
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.12);
+}
+
+/* 响应式适配 */
+@media (max-width: 750rpx) {
+  .projects-grid {
+    justify-content: center;
+  }
+  
+  .project-item {
+    min-width: 180rpx;
+    max-width: 200rpx;
+  }
+  
+  .timer-circle {
+    width: 350rpx;
+    height: 350rpx;
+  }
+  
+  .timer-content {
+    width: 280rpx;
+    height: 280rpx;
+  }
+  
+  .timer-text {
+    font-size: 64rpx;
+  }
+}

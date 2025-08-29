@@ -1,0 +1,118 @@
+<!--专注页面模板-->
+<view class="focus-container">
+  <!-- 顶部统计区域 -->
+  <view class="stats-section">
+    <view class="stats-header">
+      <text class="page-title">专注</text>
+      <view class="share-btn" bindtap="shareFocus">
+        <text class="share-icon">⋯</text>
+      </view>
+    </view>
+    
+    <view class="today-stats">
+      <view class="stat-item">
+        <text class="stat-label">项目管理</text>
+        <text class="stat-arrow">></text>
+      </view>
+      
+      <view class="stat-item focus-time">
+        <text class="stat-label">今日专注</text>
+        <text class="stat-value">{{todayStats.totalTimeText || '0s'}}</text>
+      </view>
+      
+      <view class="stat-item incomplete">
+        <text class="stat-label">1个未完成目标</text>
+        <text class="stat-time">还需30m</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 项目选择区域 -->
+  <view class="projects-section">
+    <text class="section-title">所有项目</text>
+    
+    <view class="projects-grid">
+      <view 
+        class="project-item {{currentProject && currentProject.id === item.id ? 'selected' : ''}}"
+        wx:for="{{projects}}"
+        wx:key="id"
+        data-project-id="{{item.id}}"
+        bindtap="selectProject"
+      >
+        <view class="project-icon" style="background-color: {{item.color}}20;">
+          <text class="icon-text">{{item.icon}}</text>
+        </view>
+        <text class="project-name">{{item.name}}</text>
+        <view class="project-time" wx:if="{{item.todayTime > 0}}">
+          <text class="time-icon">⏱</text>
+          <text class="time-text">{{item.todayTimeText}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 专注计时器区域 -->
+  <view class="timer-section">
+    <!-- 时间选择 -->
+    <view class="time-options" wx:if="{{!isRunning}}">
+      <view 
+        class="time-option {{targetTime === item.value ? 'selected' : ''}}"
+        wx:for="{{timeOptions}}"
+        wx:key="value"
+        data-time="{{item.value}}"
+        bindtap="selectTime"
+      >
+        <text>{{item.label}}</text>
+      </view>
+    </view>
+
+    <!-- 计时器显示 -->
+    <view class="timer-display">
+      <view class="timer-circle">
+        <view class="progress-ring">
+          <view class="progress-fill" style="transform: rotate({{progress * 3.6}}deg);"></view>
+        </view>
+        <view class="timer-content">
+          <text class="timer-text">{{displayTime}}</text>
+          <text class="timer-label" wx:if="{{currentProject}}">{{currentProject.name}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 控制按钮 -->
+    <view class="timer-controls">
+      <view wx:if="{{!isRunning}}" class="start-btn" bindtap="startFocus">
+        <text>开始专注</text>
+      </view>
+      
+      <view wx:elif="{{isPaused}}" class="control-buttons">
+        <view class="control-btn resume-btn" bindtap="resumeFocus">
+          <text>继续</text>
+        </view>
+        <view class="control-btn stop-btn" bindtap="stopFocus">
+          <text>结束</text>
+        </view>
+      </view>
+      
+      <view wx:else class="control-buttons">
+        <view class="control-btn pause-btn" bindtap="pauseFocus">
+          <text>暂停</text>
+        </view>
+        <view class="control-btn stop-btn" bindtap="stopFocus">
+          <text>结束</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 添加项目按钮 -->
+  <view class="add-project">
+    <view class="add-btn">
+      <text class="add-icon">+</text>
+      <text class="add-text">添加</text>
+    </view>
+  </view>
+
+  <!-- 底部占位 -->
+  <view class="bottom-placeholder"></view>
+</view>

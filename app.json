@@ -4,6 +4,7 @@
     "pages/canvas-test/canvas-test",
     "pages/canvas-compatibility-test/canvas-compatibility-test",
     "pages/tasks/tasks",
+    "pages/focus/focus",
     "pages/achievements/achievements"
   ],
   "window": {
@@ -30,6 +31,12 @@
         "iconPath": "images/tasks-inactive.png",
         "selectedIconPath": "images/tasks-new.png",
         "text": "任务"
+      },
+      {
+        "pagePath": "pages/focus/focus",
+        "iconPath": "images/focus-inactive.png",
+        "selectedIconPath": "images/focus-new.png",
+        "text": "专注"
       },
       {
         "pagePath": "pages/achievements/achievements",

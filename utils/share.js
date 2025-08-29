@@ -25,6 +25,11 @@ class ShareManager {
         title: '我的任务管理',
         path: '/pages/tasks/tasks',
         imageUrl: '/images/share-tasks.jpg'
+      },
+      focus: {
+        title: '我的专注时光',
+        path: '/pages/focus/focus',
+        imageUrl: '/images/share-focus.jpg'
       }
     };
   }
@@ -147,6 +152,42 @@ class ShareManager {
   }
 
   /**
+   * 生成专注分享内容
+   * @param {Object} focusData - 专注数据
+   * @returns {Object} 分享配置
+   */
+  generateFocusShare(focusData) {
+    const { todayStats, completedSession } = focusData;
+    const totalMinutes = Math.floor(todayStats.totalTime / 60);
+    
+    const motivationalTexts = [
+      '专注让时间更有价值！',
+      '每一分专注都是成长的积累！',
+      '专注是通往成功的必经之路！',
+      '今天的专注，明天的收获！',
+      '专注时光，收获满满！'
+    ];
+    
+    const randomText = motivationalTexts[Math.floor(Math.random() * motivationalTexts.length)];
+    
+    return {
+      title: `🎯 今日专注 ${totalMinutes} 分钟！${randomText}`,
+      path: '/pages/focus/focus',
+      imageUrl: '/images/share-focus.jpg',
+      content: {
+        totalTime: todayStats.totalTime,
+        totalMinutes: totalMinutes,
+        completedSessions: todayStats.completedSessions,
+        motivationalText: randomText,
+        sessionInfo: completedSession ? {
+          project: completedSession.project.name,
+          duration: Math.floor(completedSession.duration / 60)
+        } : null
+      }
+    };
+  }
+
+  /**
    * 分享到微信好友
    * @param {string} type - 分享类型
    * @param {Object} data - 分享数据
@@ -167,6 +208,9 @@ class ShareManager {
         break;
       case 'achievement':
         shareConfig = this.generateAchievementShare(data);
+        break;
+      case 'focus':
+        shareConfig = this.generateFocusShare(data);
         break;
       default:
         shareConfig = this.shareTemplates.checkin;
@@ -189,7 +233,8 @@ class ShareManager {
       checkin: '自律打卡，每天进步一点点！',
       stats: '坚持的路上，感谢有你们的陪伴！',
       tasks: '设定目标，勇敢追梦！',
-      achievement: '又解锁新成就，继续努力！'
+      achievement: '又解锁新成就，继续努力！',
+      focus: '专注时光，收获成长！'
     };
     
     return {
