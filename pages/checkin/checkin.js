@@ -262,11 +262,13 @@ Page({
      try {
        const query = wx.createSelectorQuery().in(this);
        query.select('.checkin-container').node((res) => {
-         if (res && res.node) {
+         if (res && res.node && res.node.classList) {
            // 移除之前的模式类名
            res.node.classList.remove('skyline-mode', 'webview-mode');
            // 添加当前模式类名
            res.node.classList.add(isSkyline ? 'skyline-mode' : 'webview-mode');
+         } else {
+           console.warn('无法获取DOM节点或classList不可用:', res);
          }
        }).exec();
      } catch (error) {

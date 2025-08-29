@@ -171,6 +171,37 @@
                 <li><strong>TabBar集成：</strong>已更新app.json配置，使用新图标路径</li>
             </ul>
         </div>
+        
+        <h2>🐛 问题修复</h2>
+        
+        <!-- 名人名言重叠问题修复 -->
+        <div class="fix-info" style="background: #f0f9ff; border: 1px solid #0ea5e9; border-radius: 8px; padding: 20px; margin: 20px 0;">
+          <h3 style="color: #0369a1; margin-top: 0;">✅ 名人名言重叠问题已修复</h3>
+          <p><strong>问题描述：</strong>打卡页面所有色块消除后，Canvas背景显示的名人名言与页面底部的今日名言重叠显示。</p>
+          <p><strong>解决方案：</strong>修改 <code>checkin.js</code> 中的 <code>initCanvas</code> 函数，使用今日名言（todayQuote）替代随机名言作为Canvas背景，确保显示内容一致，避免重叠。</p>
+          <p><strong>修改文件：</strong><code>pages/checkin/checkin.js</code> 第153-155行</p>
+          <div style="background: #1e293b; color: #e2e8f0; padding: 15px; border-radius: 6px; margin: 10px 0; font-family: 'Courier New', monospace;">
+            <div style="color: #ef4444;"><strong>修改前：</strong></div>
+            <code>const backgroundQuote = getRandomQuote();</code><br>
+            <div style="color: #22c55e; margin-top: 10px;"><strong>修改后：</strong></div>
+            <code>if (this.data.todayQuote) { this.canvasRenderer.setBackgroundQuote(this.data.todayQuote); }</code>
+          </div>
+        </div>
+        
+        <!-- DOM操作错误修复 -->
+        <div class="fix-info" style="background: #fef3c7; border: 1px solid #f59e0b; border-radius: 8px; padding: 20px; margin: 20px 0;">
+          <h3 style="color: #92400e; margin-top: 0;">✅ DOM操作错误已修复</h3>
+          <p><strong>错误信息：</strong><code>TypeError: Cannot read property 'remove' of undefined</code></p>
+          <p><strong>问题描述：</strong>在 <code>applyRenderingModeStyles</code> 函数中，尝试访问 <code>res.node.classList</code> 时可能遇到 undefined 对象。</p>
+          <p><strong>解决方案：</strong>添加更严格的空值检查，确保 <code>res.node</code> 和 <code>classList</code> 都存在后再进行DOM操作。</p>
+          <p><strong>修改文件：</strong><code>pages/checkin/checkin.js</code> 第265行</p>
+          <div style="background: #1e293b; color: #e2e8f0; padding: 15px; border-radius: 6px; margin: 10px 0; font-family: 'Courier New', monospace;">
+            <div style="color: #ef4444;"><strong>修改前：</strong></div>
+            <code>if (res && res.node) {</code><br>
+            <div style="color: #22c55e; margin-top: 10px;"><strong>修改后：</strong></div>
+            <code>if (res && res.node && res.node.classList) {</code>
+          </div>
+        </div>
     </div>
 </body>
 </html>

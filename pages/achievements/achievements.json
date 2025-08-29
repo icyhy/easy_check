@@ -1,8 +1,5 @@
 {
   "navigationBarTitleText": "",
   "navigationStyle": "custom",
-  "renderer": "skyline",
-  "componentFramework": "glass-easel",
-  "backgroundColor": "#f8f9fa",
   "usingComponents": {}
 }

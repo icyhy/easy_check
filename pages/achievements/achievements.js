@@ -43,18 +43,8 @@ Page({
   /**
    * 获取系统信息和渲染模式检测
    */
-  /**
-   * 获取系统信息并设置导航栏高度
-   */
   getSystemInfo() {
     try {
-      const systemInfo = wx.getSystemInfoSync();
-      
-      // 设置状态栏高度
-      this.setData({
-        statusBarHeight: systemInfo.statusBarHeight
-      });
-      
       // 检测渲染模式
       const isSkyline = this.detectRenderingMode();
       

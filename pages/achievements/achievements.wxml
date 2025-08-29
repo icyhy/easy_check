@@ -3,7 +3,7 @@
   <!-- 自定义导航栏 -->
   <view class="custom-navbar" style="padding-top: {{statusBarHeight}}px; height: {{navBarHeight}}px;">
     <view class="navbar-content">
-      <text class="navbar-title">成就管理</text>
+      <text class="navbar-title">🏆 成就系统</text>
     </view>
   </view>
 

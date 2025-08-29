@@ -11,27 +11,28 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  background: var(--primary-gradient);
-  color: white;
-  box-shadow: 0 4rpx 20rpx rgba(102, 126, 234, 0.2);
+  background: var(--navbar-background);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .navbar-content {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  height: 100%;
   padding: 0 var(--spacing-lg);
-  height: 88rpx;
 }
 
 .navbar-title {
-  font-size: var(--font-size-lg);
-  font-weight: bold;
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--text-primary);
 }
 
 /* 成就容器 */
 .achievements-container {
-  padding: var(--spacing-base);
+  padding: var(--spacing-lg);
 }
 
 /* 统计卡片 */
@@ -40,23 +41,23 @@
   border-radius: var(--border-radius-lg);
   padding: var(--spacing-lg);
   margin-bottom: var(--spacing-lg);
-  display: flex;
-  justify-content: space-around;
   box-shadow: 0 4rpx 16rpx var(--shadow-color);
+  display: flex;
+  justify-content: space-between;
 }
 
 .stats-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
+  flex: 1;
 }
 
 .stats-number {
   font-size: var(--font-size-xxl);
-  font-weight: bold;
-  color: var(--text-primary);
-  margin-bottom: 8rpx;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-xs);
 }
 
 .stats-label {
