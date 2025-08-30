@@ -2,6 +2,24 @@
 
 一个基于微信小程序平台的自律打卡应用，通过色块消除游戏化方式培养用户的自律习惯。
 
+## 📱 应用预览
+
+> **截图说明**：以下截图展示了应用的主要功能界面。要获取最新的应用截图，请按照[截图指南](#截图指南)在微信开发者工具中进行截图。
+
+### 主要功能界面
+
+| 打卡页面 | 任务管理 | 专注模式 | 成就系统 |
+|---------|---------|---------|----------|
+| ![打卡页面](screenshots/checkin-page.png) | ![任务管理](screenshots/tasks-page.png) | ![专注模式](screenshots/focus-page.png) | ![成就系统](screenshots/achievements-page.png) |
+| 游戏化打卡界面，支持色块消除 | 任务创建、编辑和管理 | 专注计时和统计功能 | 成就徽章和进度追踪 |
+
+### 核心功能展示
+
+- **🎮 游戏化打卡**：通过点击色块完成任务打卡，增加趣味性
+- **📋 任务管理**：支持任务的增删改查，难度分级管理
+- **⏰ 专注模式**：番茄钟计时功能，提升专注效率
+- **🏆 成就系统**：多样化成就徽章，激励持续使用
+
 ## 项目概述
 
 ### 核心功能
@@ -13,10 +31,13 @@
 
 ### 技术栈
 - **前端框架**：微信小程序原生开发
-- **渲染引擎**：Skyline渲染引擎
-- **开发语言**：TypeScript + JavaScript
-- **样式语言**：WXSS (支持CSS3特性)
+- **渲染引擎**：Skyline渲染引擎 + WebGL Canvas
+- **开发语言**：TypeScript + JavaScript ES6+
+- **样式语言**：WXSS (支持CSS3特性、Flexbox、Grid)
 - **数据存储**：微信小程序本地存储API
+- **图形渲染**：Canvas 2D API + 自定义渲染器
+- **算法支持**：Voronoi图算法、矩形分割算法
+- **开发工具**：微信开发者工具、Node.js、npm
 
 ## 核心功能
 
@@ -115,38 +136,180 @@
 
 ```
 easy_check/
-├── app.js                 # 小程序入口文件
-├── app.json              # 小程序配置文件
-├── app.wxss              # 全局样式文件
-├── sitemap.json          # 搜索配置文件
-├── package.json          # 项目配置文件
-├── README.md             # 项目说明文档
-├── docs/                 # 文档目录
-│   └── chat.md          # 开发日志
-├── images/               # 图片资源目录
-│   ├── checkin.png      # 打卡页面图标
-│   ├── tasks.png        # 任务页面图标
-│   ├── stats.png        # 统计页面图标
-│   ├── share*.jpg       # 分享图片
-│   ├── badge-*.png      # 成就徽章
-│   └── task-*.png       # 任务难度图标
-└── pages/                # 页面目录
-    ├── checkin/         # 打卡页面
-    │   ├── checkin.js   # 页面逻辑
-    │   ├── checkin.json # 页面配置
-    │   ├── checkin.wxml # 页面结构
-    │   └── checkin.wxss # 页面样式
-    ├── tasks/           # 任务管理页面
+├── app.js                          # 小程序入口文件
+├── app.json                        # 小程序配置文件
+├── app.wxss                        # 全局样式文件
+├── sitemap.json                    # 搜索配置文件
+├── package.json                    # 项目配置文件
+├── package-lock.json               # 依赖锁定文件
+├── tsconfig.json                   # TypeScript 配置文件
+├── project.config.json             # 微信开发者工具配置
+├── project.private.config.json     # 私有配置文件
+├── README.md                       # 项目说明文档
+├── screenshots/                    # 应用截图目录
+│   ├── checkin-page.png           # 打卡页面截图
+│   ├── tasks-page.png             # 任务管理截图
+│   ├── focus-page.png             # 专注模式截图
+│   ├── achievements-page.png       # 成就系统截图
+│   └── projects-page.png          # 项目管理截图
+├── docs/                           # 文档目录
+│   └── chat.md                    # 开发日志
+├── data/                           # 数据文件目录
+│   └── quotes.js                  # 名言数据
+├── images/                         # 图片资源目录
+│   ├── checkin-inactive.png        # 打卡页面图标（未选中）
+│   ├── checkin-new.png            # 打卡页面图标（选中）
+│   ├── tasks-inactive.png         # 任务页面图标（未选中）
+│   ├── tasks-new.png              # 任务页面图标（选中）
+│   ├── focus-inactive.png         # 专注页面图标（未选中）
+│   ├── focus-new.png              # 专注页面图标（选中）
+│   ├── achievements-inactive.png   # 成就页面图标（未选中）
+│   ├── achievements-new.png       # 成就页面图标（选中）
+│   ├── share-*.jpg                # 分享图片
+│   ├── add-button.svg             # 添加按钮图标
+│   ├── back-arrow.svg             # 返回箭头图标
+│   ├── save-button.svg            # 保存按钮图标
+│   └── empty-tasks.svg            # 空任务状态图标
+├── utils/                          # 工具类目录
+│   ├── rectangle-canvas-renderer.js # Canvas 渲染器
+│   ├── share.js                   # 分享功能工具
+│   ├── storage.js                 # 存储工具
+│   └── util.js                    # 通用工具函数
+├── test/                           # 测试文件目录
+│   └── performance-test.js         # 性能测试
+└── pages/                          # 页面目录
+    ├── checkin/                    # 打卡页面
+    │   ├── checkin.js             # 页面逻辑
+    │   ├── checkin.json           # 页面配置
+    │   ├── checkin.wxml           # 页面结构
+    │   └── checkin.wxss           # 页面样式
+    ├── tasks/                      # 任务管理页面
     │   ├── tasks.js
     │   ├── tasks.json
     │   ├── tasks.wxml
     │   └── tasks.wxss
-    └── stats/           # 统计分析页面
-        ├── stats.js
-        ├── stats.json
-        ├── stats.wxml
-        └── stats.wxss
+    ├── focus/                      # 专注模式页面
+    │   ├── focus.js
+    │   ├── focus.json
+    │   ├── focus.wxml
+    │   └── focus.wxss
+    ├── achievements/               # 成就系统页面
+    │   ├── achievements.js
+    │   ├── achievements.json
+    │   ├── achievements.wxml
+    │   └── achievements.wxss
+    ├── projects/                   # 项目管理页面
+    │   ├── projects.js
+    │   ├── projects.json
+    │   ├── projects.wxml
+    │   └── projects.wxss
+    ├── add-project/                # 添加项目页面
+    │   ├── add-project.js
+    │   ├── add-project.json
+    │   ├── add-project.wxml
+    │   └── add-project.wxss
+    ├── canvas-test/                # Canvas 测试页面
+    │   ├── canvas-test.js
+    │   ├── canvas-test.json
+    │   ├── canvas-test.wxml
+    │   └── canvas-test.wxss
+    ├── canvas-compatibility-test/   # Canvas 兼容性测试
+    │   ├── canvas-compatibility-test.js
+    │   ├── canvas-compatibility-test.json
+    │   ├── canvas-compatibility-test.wxml
+    │   └── canvas-compatibility-test.wxss
+    └── voronoi-test/               # Voronoi 算法测试
+        ├── voronoi-test.json
+        ├── voronoi-test.ts
+        └── voronoi-test.wxml
 ```
+
+## 📸 截图指南
+
+为了更好地展示应用功能，建议按照以下步骤在微信开发者工具中进行截图：
+
+### 准备工作
+1. 确保微信开发者工具已正常运行项目
+2. 在项目根目录创建 `screenshots` 文件夹
+3. 准备一些测试数据（任务、打卡记录等）
+
+### 截图步骤
+
+#### 方法一：使用微信开发者工具内置截图功能
+1. 在微信开发者工具中打开项目
+2. 点击工具栏中的「预览」按钮
+3. 在模拟器中导航到需要截图的页面
+4. 使用系统截图工具（macOS: `Cmd+Shift+4`，Windows: `Win+Shift+S`）
+5. 将截图保存到 `screenshots` 文件夹
+
+#### 方法二：使用系统命令行工具（macOS）
+```bash
+# 创建截图目录
+mkdir -p screenshots
+
+# 使用 screencapture 命令进行截图
+# -i: 交互式选择区域
+# -x: 不播放截图声音
+screencapture -i -x screenshots/checkin-page.png
+screencapture -i -x screenshots/tasks-page.png
+screencapture -i -x screenshots/focus-page.png
+screencapture -i -x screenshots/achievements-page.png
+screencapture -i -x screenshots/projects-page.png
+```
+
+#### 方法三：批量截图脚本
+创建一个自动化截图脚本 `take-screenshots.sh`：
+```bash
+#!/bin/bash
+# 自动化截图脚本
+
+echo "开始截图，请确保微信开发者工具已打开项目..."
+sleep 2
+
+echo "请在微信开发者工具中导航到打卡页面，然后按回车键"
+read
+screencapture -i -x screenshots/checkin-page.png
+
+echo "请导航到任务管理页面，然后按回车键"
+read
+screencapture -i -x screenshots/tasks-page.png
+
+echo "请导航到专注模式页面，然后按回车键"
+read
+screencapture -i -x screenshots/focus-page.png
+
+echo "请导航到成就系统页面，然后按回车键"
+read
+screencapture -i -x screenshots/achievements-page.png
+
+echo "请导航到项目管理页面，然后按回车键"
+read
+screencapture -i -x screenshots/projects-page.png
+
+echo "截图完成！所有截图已保存到 screenshots 目录"
+```
+
+使用方法：
+```bash
+# 给脚本添加执行权限
+chmod +x take-screenshots.sh
+
+# 运行截图脚本
+./take-screenshots.sh
+```
+
+### 推荐截图内容
+- **打卡页面** (`checkin-page.png`)：展示色块消除界面
+- **任务管理** (`tasks-page.png`)：显示任务列表和操作按钮
+- **专注模式** (`focus-page.png`)：番茄钟计时界面
+- **成就系统** (`achievements-page.png`)：成就徽章展示
+- **项目管理** (`projects-page.png`)：项目创建和管理界面
+
+### 截图规范
+- **分辨率**：建议使用 375×667 (iPhone SE) 或 414×896 (iPhone 11) 分辨率
+- **格式**：PNG 格式，保证图片清晰度
+- **命名**：使用英文小写和连字符，如 `checkin-page.png`
+- **大小**：单张图片建议不超过 500KB
 
 ## 快速开始
 
@@ -234,26 +397,115 @@ easy_check/
 2. 在微信公众平台提交审核
 3. 审核通过后发布上线
 
-## 贡献指南
+## 📋 更新日志
 
-欢迎提交 Issue 和 Pull Request 来改进项目。
+### v1.0.0 (2025-01-20)
+- ✨ 初始版本发布
+- 🎮 实现游戏化打卡功能（色块消除）
+- 📋 完成任务管理系统
+- ⏰ 添加专注模式（番茄钟）
+- 🏆 实现成就系统
+- 📊 添加数据统计和可视化
+- 🎨 优化UI设计和用户体验
+- 🔧 集成Skyline渲染引擎
+- 📱 适配多种屏幕尺寸
 
-### 提交规范
-- 使用清晰的提交信息
-- 遵循现有的代码风格
-- 添加必要的测试和文档
+### 开发中功能
+- 🔄 数据同步和备份
+- 👥 社交功能增强
+- 📈 更多统计维度
+- 🎯 智能任务推荐
+- 🌙 夜间模式
 
-## 许可证
+## 🤝 贡献指南
 
-本项目采用 MIT 许可证，详见 [LICENSE](LICENSE) 文件。
+我们欢迎所有形式的贡献！无论是报告bug、提出新功能建议，还是提交代码改进。
 
-## 联系方式
+### 如何贡献
 
-如有问题或建议，请通过以下方式联系：
-- 邮箱：[开发者邮箱]
-- 微信：[开发者微信]
-- GitHub：[项目地址]
+1. **报告问题**
+   - 在 [Issues](https://github.com/your-repo/easy_check/issues) 中创建新的问题报告
+   - 详细描述问题的复现步骤
+   - 提供相关的截图或错误信息
+
+2. **提出功能建议**
+   - 在 Issues 中使用 "enhancement" 标签
+   - 详细说明功能需求和使用场景
+   - 如果可能，提供设计草图或原型
+
+3. **提交代码**
+   - Fork 本项目到你的 GitHub 账户
+   - 创建新的功能分支：`git checkout -b feature/your-feature-name`
+   - 提交你的更改：`git commit -m 'Add some feature'`
+   - 推送到分支：`git push origin feature/your-feature-name`
+   - 创建 Pull Request
+
+### 代码规范
+
+- **命名规范**：使用驼峰命名法（camelCase）
+- **注释规范**：为所有函数添加详细的JSDoc注释
+- **代码风格**：遵循 ESLint 配置
+- **提交信息**：使用约定式提交格式
+  ```
+  feat: 添加新功能
+  fix: 修复bug
+  docs: 更新文档
+  style: 代码格式调整
+  refactor: 代码重构
+  test: 添加测试
+  chore: 构建过程或辅助工具的变动
+  ```
+
+### 开发环境设置
+
+1. 确保安装了 Node.js (>= 14.0.0)
+2. 安装微信开发者工具最新版本
+3. 克隆项目并安装依赖：
+   ```bash
+   git clone https://github.com/your-repo/easy_check.git
+   cd easy_check
+   npm install
+   ```
+4. 在微信开发者工具中导入项目
+
+## 📄 许可证
+
+本项目采用 MIT 许可证。这意味着你可以自由地使用、修改和分发本项目，只需保留原始的许可证声明。
+
+详见 [LICENSE](LICENSE) 文件。
+
+## 📞 联系方式
+
+如有任何问题、建议或合作意向，欢迎通过以下方式联系：
+
+- 📧 **邮箱**：[your-email@example.com]
+- 💬 **微信**：[your-wechat-id]
+- 🐙 **GitHub**：[https://github.com/your-username]
+- 📱 **小程序**：搜索"自律打卡"体验完整功能
+
+## 🙏 致谢
+
+感谢所有为这个项目做出贡献的开发者和用户！
+
+特别感谢：
+- 微信小程序团队提供的优秀开发平台
+- Skyline渲染引擎团队的技术支持
+- 所有测试用户的宝贵反馈
+
+## 🌟 Star History
+
+如果这个项目对你有帮助，请给我们一个 ⭐️ Star！
+
+[![Star History Chart](https://api.star-history.com/svg?repos=your-username/easy_check&type=Date)](https://star-history.com/#your-username/easy_check&Date)
 
 ---
 
-**让自律成为习惯，让坚持成为力量！** 🚀
+<div align="center">
+  <h3>🚀 让自律成为习惯，让坚持成为力量！</h3>
+  <p>Built with ❤️ by the Easy Check Team</p>
+  <p>
+    <a href="#top">回到顶部</a> |
+    <a href="https://github.com/your-repo/easy_check/issues">报告问题</a> |
+    <a href="https://github.com/your-repo/easy_check/discussions">讨论交流</a>
+  </p>
+</div>
