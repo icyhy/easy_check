@@ -1,0 +1,57 @@
+<view class="container">
+  <view class="stats-section">
+    <view class="stats-header">
+      <view class="back-button" bindtap="navigateBack">
+        <image src="/images/back-arrow.png" class="back-arrow-icon"></image>
+      </view>
+      <text class="page-title">新建项目</text>
+
+    </view>
+  </view>
+
+  <view class="content">
+    <view class="form-item">
+      <text class="label">输入项目名称:</text>
+      <input class="input" placeholder="例如学习、看书等" bindinput="onProjectNameInput"/>
+    </view>
+
+    <view class="form-item">
+      <text class="label">总目标时间:</text>
+      <view class="time-input-group">
+        <input class="input time-input" type="number" value="{{totalTargetTime}}" bindinput="onTotalTargetTimeInput"/>
+        <text class="unit">小时</text>
+      </view>
+    </view>
+
+    <view class="form-item">
+      <text class="label">每日计划:</text>
+      <picker bindchange="onDailyPlanChange" value="{{dailyPlanIndex}}" range="{{dailyPlanOptions}}">
+        <view class="picker">{{dailyPlanOptions[dailyPlanIndex]}}</view>
+      </picker>
+    </view>
+
+    <view class="form-item">
+      <text class="label">选择项目图标:</text>
+      <view class="icon-grid">
+        <block wx:for="{{icons}}" wx:key="index">
+          <image src="{{item}}" class="icon-item {{selectedIcon === item ? 'selected' : ''}}" data-icon="{{item}}" bindtap="onIconSelect"></image>
+        </block>
+      </view>
+    </view>
+
+    <view class="form-item">
+      <text class="label">选择项目颜色:</text>
+      <view class="color-grid">
+        <block wx:for="{{colors}}" wx:key="index">
+          <view class="color-item {{selectedColor === item ? 'selected' : ''}}" style="background-color: {{item}}" data-color="{{item}}" bindtap="onColorSelect"></view>
+        </block>
+      </view>
+    </view>
+  </view>
+
+  <view class="fixed-bottom-right">
+    <view class="add-button" bindtap="saveProject">
+      <image src="/images/add-button.png" class="add-button-icon"></image>
+    </view>
+  </view>
+</view>

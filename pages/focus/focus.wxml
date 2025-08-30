@@ -10,7 +10,7 @@
     </view>
     
     <view class="today-stats">
-      <view class="stat-item">
+      <view class="stat-item" bindtap="navigateToProjects">
         <text class="stat-label">项目管理</text>
         <text class="stat-arrow">></text>
       </view>
@@ -40,7 +40,7 @@
         bindtap="selectProject"
       >
         <view class="project-icon" style="background-color: {{item.color}}20;">
-          <text class="icon-text">{{item.icon}}</text>
+          <image src="{{item.icon}}" class="project-icon-image"></image>
         </view>
         <text class="project-name">{{item.name}}</text>
         <view class="project-time" wx:if="{{item.todayTime > 0}}">
@@ -81,7 +81,7 @@
 
     <!-- 控制按钮 -->
     <view class="timer-controls">
-      <view wx:if="{{!isRunning}}" class="start-btn" bindtap="startFocus">
+      <view wx:if="{{!isRunning}}" class="start-btn {{!hasProjects ? 'disabled' : ''}}" bindtap="{{hasProjects ? 'startFocus' : ''}}">
         <text>开始专注</text>
       </view>
       
@@ -105,13 +105,7 @@
     </view>
   </view>
 
-  <!-- 添加项目按钮 -->
-  <view class="add-project">
-    <view class="add-btn">
-      <text class="add-icon">+</text>
-      <text class="add-text">添加</text>
-    </view>
-  </view>
+
 
   <!-- 底部占位 -->
   <view class="bottom-placeholder"></view>

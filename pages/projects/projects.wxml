@@ -1,0 +1,48 @@
+<view class="projects-page">
+  <!-- 自定义导航栏 -->
+  <view class="stats-section">
+    <view class="stats-header">
+      <view class="back-button" bindtap="navigateBack">
+        <image src="/images/back-arrow.png" class="back-arrow-icon"></image>
+      </view>
+      <text class="page-title">我的项目</text>
+      <view class="share-btn">
+        <text class="share-icon">...</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 项目列表主体区域 -->
+  <scroll-view class="projects-container" style="margin-top: {{navBarHeight + statusBarHeight}}px; height: calc(100vh - {{navBarHeight + statusBarHeight}}px);" scroll-y="true">
+    <!-- 筛选按钮 -->
+    <view class="filter-section">
+      <button class="filter-button">全部</button>
+    </view>
+
+    <!-- 项目列表 -->
+    <view class="project-list">
+      <view class="project-item-wrapper {{item.showDelete ? 'show-delete' : ''}}" wx:for="{{projects}}" wx:key="id" data-id="{{item.id}}" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
+        <view class="project-item" bindtap="editProject" data-id="{{item.id}}" style="transform: translateX({{item.x}}px); transition: transform 0.3s ease-out;">
+          <view class="project-icon-wrapper" style="background-color: {{item.color}};">
+            <image class="project-icon" src="{{item.icon}}"></image>
+          </view>
+          <view class="project-info">
+            <text class="project-name">{{item.name}}</text>
+            <view class="project-stats">
+              <text class="stat-item">已坚持{{item.days}}天</text>
+              <text class="stat-item">剩余{{item.remainingHours}}h</text>
+            </view>
+          </view>
+        </view>
+        <view class="delete-button" catchtap="deleteProject" data-id="{{item.id}}">
+          删除
+        </view>
+      </view>
+    </view>
+
+      <!-- 添加按钮 -->
+      <view class="add-button-wrapper">
+        <image class="add-button" src="/images/add-button.png" bindtap="navigateToAddProject"></image>
+      </view>
+    </scroll-view>
+</view>

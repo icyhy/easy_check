@@ -1,0 +1,208 @@
+.projects-page {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f7f7f7;
+}
+
+/* Custom Navbar */
+/* 顶部统计区域 */
+.stats-section {
+  padding: 40rpx 0 30rpx;
+}
+
+.stats-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+
+.page-title {
+  font-size: 48rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.share-btn {
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+}
+
+.share-icon {
+  font-size: 32rpx;
+  color: #666;
+  font-weight: bold;
+}
+
+.back-button {
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+}
+
+.back-arrow-icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* Projects Container */
+.projects-container {
+  flex: 1;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 15px;
+  padding-bottom: 80px; /* 为浮动按钮留出空间 */
+  padding-top: 0; /* 调整顶部内边距 */
+  margin-top: 0; /* 移除顶部外边距 */
+}
+
+/* Filter Section */
+.filter-section {
+  margin-bottom: 15px;
+}
+
+.filter-button {
+  background-color: #d4edda;
+  color: #4CAF50;
+  border-radius: 8px;
+  padding: 5px 15px;
+  font-size: 14px;
+  display: inline-block;
+  border: none;
+  outline: none;
+}
+
+/* Project List */
+.project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.project-item-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.project-item {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+}
+
+.delete-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 80px; /* 删除按钮的宽度 */
+  background-color: #ff4d4f; /* 红色背景 */
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  border-radius: 0 10px 10px 0;
+  z-index: 2; /* 确保在 project-item 上层 */
+  transform: translateX(100%); /* 默认隐藏在右侧 */
+  transition: transform 0.3s ease-out;
+}
+
+.project-item-wrapper.show-delete .delete-button {
+  transform: translateX(0); /* 显示删除按钮 */
+}
+
+.project-icon-wrapper {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 15px;
+  background-color: #e0f7fa; /* Default background */
+}
+
+.project-icon {
+  width: 40px;
+  height: 40px;
+}
+
+.project-item:nth-child(1) .project-icon-wrapper {
+  background-color: #e0f7fa; /* Light Cyan */
+}
+
+.project-item:nth-child(2) .project-icon-wrapper {
+  background-color: #e3f2fd; /* Light Blue */
+}
+
+.project-item:nth-child(3) .project-icon-wrapper {
+  background-color: #fffde7; /* Light Yellow */
+}
+
+.project-info {
+  flex: 1;
+}
+
+.project-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.project-stats {
+  display: flex;
+  gap: 10px;
+}
+
+.stat-item {
+  font-size: 12px;
+  color: #666;
+  display: flex;
+  align-items: center;
+}
+
+.stat-item::before {
+  content: '●'; /* 使用圆点作为图标 */
+  font-size: 8px;
+  margin-right: 5px;
+  color: #999;
+}
+
+/* Add Button */
+.add-button-wrapper {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 999;
+}
+
+.add-button {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}

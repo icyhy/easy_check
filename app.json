@@ -5,7 +5,9 @@
     "pages/canvas-compatibility-test/canvas-compatibility-test",
     "pages/tasks/tasks",
     "pages/focus/focus",
-    "pages/achievements/achievements"
+    "pages/achievements/achievements",
+    "pages/projects/projects",
+    "pages/add-project/add-project"
   ],
   "window": {
     "backgroundTextStyle": "light",

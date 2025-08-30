@@ -31,21 +31,21 @@ Page({
       {
         id: 'reading',
         name: '看书',
-        icon: '📚',
+        icon: '/images/book-icon.png',
         color: '#52c41a',
         todayTime: 0
       },
       {
         id: 'study',
         name: '学习',
-        icon: '📖',
+        icon: '/images/study-icon.png',
         color: '#1890ff',
         todayTime: 0
       },
       {
         id: 'exercise',
         name: '跑起来',
-        icon: '🏃‍♂️',
+        icon: '/images/run-icon.png',
         color: '#faad14',
         todayTime: 1800 // 30分钟
       }
@@ -82,6 +82,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
+    this.loadProjects();
     this.loadFocusData();
   },
 
@@ -180,6 +181,18 @@ Page({
   },
 
   /**
+   * 加载项目列表
+   */
+  loadProjects() {
+    const projects = wx.getStorageSync('projects') || [];
+    this.setData({
+      projects: projects,
+      currentProject: projects.length > 0 ? projects[0] : null, // 默认选中第一个项目，如果没有项目则为null
+      hasProjects: projects.length > 0 // 用于控制开始按钮的禁用状态
+    });
+  },
+
+  /**
    * 加载专注数据
    */
   loadFocusData() {
@@ -218,6 +231,15 @@ Page({
     } catch (error) {
       console.error('加载专注数据失败:', error);
     }
+  },
+
+  /**
+   * 导航到项目管理页面
+   */
+  navigateToProjects() {
+    wx.navigateTo({
+      url: '/pages/projects/projects'
+    });
   },
 
   /**
@@ -279,19 +301,33 @@ Page({
    * 开始专注
    */
   startFocus() {
+    if (this.data.isRunning) return;
+
+    // 如果没有项目，提示用户添加项目并跳转
     if (!this.data.currentProject) {
-      wx.showToast({
-        title: '请先选择项目',
-        icon: 'none'
+      wx.showModal({
+        title: '提示',
+        content: '请先选择一个项目才能开始专注哦！',
+        showCancel: false,
+        confirmText: '去添加',
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/add-project/add-project',
+            });
+          }
+        },
       });
       return;
     }
-    
+
     this.setData({
       isRunning: true,
-      isPaused: false
+      isPaused: false,
+      currentTime: 0,
+      displayTime: this.formatTime(this.data.targetTime),
+      progress: 0
     });
-    
     this.startTimer();
   },
 

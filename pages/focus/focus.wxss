@@ -136,6 +136,11 @@
   font-size: 36rpx;
 }
 
+.project-icon-image {
+  width: 75rpx;
+  height: 75rpx;
+}
+
 .project-name {
   font-size: 28rpx;
   color: #333;
@@ -264,17 +269,23 @@
 .start-btn {
   background-color: #1890ff;
   color: #fff;
-  padding: 24rpx 60rpx;
-  border-radius: 50rpx;
-  font-size: 32rpx;
+  padding: 30rpx 80rpx;
+  border-radius: 60rpx;
+  font-size: 36rpx;
   font-weight: 500;
-  box-shadow: 0 4rpx 16rpx rgba(24, 144, 255, 0.3);
+  box-shadow: 0 8rpx 20rpx rgba(24, 144, 255, 0.3);
   transition: all 0.3s ease;
 }
 
 .start-btn:active {
   transform: translateY(2rpx);
-  box-shadow: 0 2rpx 8rpx rgba(24, 144, 255, 0.3);
+  box-shadow: 0 4rpx 10rpx rgba(24, 144, 255, 0.4);
+}
+
+.start-btn.disabled {
+  background-color: #cccccc;
+  box-shadow: none;
+  cursor: not-allowed;
 }
 
 .control-buttons {
