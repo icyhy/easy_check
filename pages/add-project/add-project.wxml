@@ -4,7 +4,7 @@
       <view class="back-button" bindtap="navigateBack">
         <image src="/images/back-arrow.png" class="back-arrow-icon"></image>
       </view>
-      <text class="page-title">新建项目</text>
+      <text class="page-title">{{pageTitle}}</text>
 
     </view>
   </view>
@@ -12,7 +12,7 @@
   <view class="content">
     <view class="form-item">
       <text class="label">输入项目名称:</text>
-      <input class="input" placeholder="例如学习、看书等" bindinput="onProjectNameInput"/>
+      <input class="input" placeholder="例如学习、看书等" value="{{projectName}}" bindinput="onProjectNameInput"/>
     </view>
 
     <view class="form-item">
@@ -51,7 +51,7 @@
 
   <view class="fixed-bottom-right">
     <view class="add-button" bindtap="saveProject">
-      <image src="/images/add-button.png" class="add-button-icon"></image>
+      <image src="/images/save-button.png" class="add-button-icon"></image>
     </view>
   </view>
 </view>

@@ -365,8 +365,6 @@ class RectangleCanvasRenderer {
   generateRectangularRegions(regionCount = null) {
     const count = regionCount || this.options.regionCount;
     
-    console.log(`[RectRenderer] 开始生成 ${count} 个矩形分割区域`);
-    
     // 计算分割区域（留出边距）
     const margin = 20;
     const baseRect = {
@@ -400,7 +398,6 @@ class RectangleCanvasRenderer {
       };
     });
     
-    console.log(`[RectRenderer] 成功生成 ${this.regions.length} 个分割区域`);
     return this.regions;
   }
   
@@ -470,18 +467,28 @@ class RectangleCanvasRenderer {
         this.options.borderWidth
       );
       
-      // 绘制区域编号或任务名称（已完成的区域不显示）
+      // 绘制任务名称（已完成的区域不显示）
       if (this.options.showNumbers && !isRegionCompleted) {
         this.ctx.fillStyle = isCompleted ? '#999' : '#333';
-        this.ctx.font = 'bold 14px Arial';
+        this.ctx.font = 'bold 12px Arial';
         this.ctx.textAlign = 'center';
         
-        const text = colorBlock ? (index + 1).toString() : (index + 1).toString();
-        this.ctx.fillText(
-          text, 
-          region.center.x, 
-          region.center.y + 5
-        );
+        // 显示任务名称而不是序号
+        const text = colorBlock && colorBlock.taskName ? colorBlock.taskName : `任务${index + 1}`;
+        
+        // 如果任务名称太长，进行换行处理
+        const maxWidth = 80; // 最大宽度
+        const lines = this.wrapText(this.ctx, text, maxWidth, 14);
+        
+        // 绘制多行文本
+        const startY = region.center.y - (lines.length - 1) * 7; // 居中显示
+        lines.forEach((line, lineIndex) => {
+          this.ctx.fillText(
+            line,
+            region.center.x,
+            startY + lineIndex * 14
+          );
+        });
         
         // 如果任务已完成，绘制勾选标记
         if (isCompleted) {

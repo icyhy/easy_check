@@ -6,6 +6,7 @@ Page({
   data: {
     statusBarHeight: 0,
     navBarHeight: 0,
+    pageTitle: '新建项目',
     projectName: '',
     totalTargetTime: 10000,
     dailyPlanOptions: ['不计划', '1小时', '2小时', '3小时', '4小时', '5小时', '6小时', '7小时', '8小时'],
@@ -36,13 +37,28 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    console.log('onLoad options:', options);
     this.getSystemInfo();
     if (options.id) {
+      console.log('进入编辑模式，项目ID:', options.id);
       // 编辑模式
+      this.setData({
+        pageTitle: '编辑项目'
+      });
       const projects = wx.getStorageSync('projects') || [];
       const projectToEdit = projects.find(p => p.id === options.id);
+      console.log('找到的项目数据:', projectToEdit);
       if (projectToEdit) {
-        const dailyPlanIndex = this.data.dailyPlanOptions.indexOf(projectToEdit.dailyPlan);
+        // 如果项目没有 dailyPlan 字段，默认为 '不计划'
+        const dailyPlan = projectToEdit.dailyPlan || '不计划';
+        const dailyPlanIndex = this.data.dailyPlanOptions.indexOf(dailyPlan);
+        console.log('设置的数据:', {
+          projectName: projectToEdit.name,
+          totalTargetTime: projectToEdit.remainingHours,
+          dailyPlanIndex: dailyPlanIndex >= 0 ? dailyPlanIndex : 0,
+          selectedIcon: projectToEdit.icon,
+          selectedColor: projectToEdit.color
+        });
         this.setData({
           projectName: projectToEdit.name,
           totalTargetTime: projectToEdit.remainingHours,
@@ -52,6 +68,11 @@ Page({
           editingProjectId: options.id
         });
       }
+    } else {
+      // 新增模式
+      this.setData({
+        pageTitle: '新建项目'
+      });
     }
   },
 

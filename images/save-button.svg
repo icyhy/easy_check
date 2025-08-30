@@ -1,0 +1,19 @@
+<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="30" cy="30" r="28" fill="#4CAF50" stroke="white" stroke-width="2"/>
+<!-- 磁盘保存图标 -->
+<g transform="translate(30, 30)">
+  <!-- 磁盘外框 -->
+  <rect x="-8" y="-8" width="16" height="16" rx="1" ry="1" fill="white" stroke="none"/>
+  
+  <!-- 磁盘顶部标签区域 -->
+  <rect x="-6" y="-8" width="12" height="3" fill="#E0E0E0" stroke="none"/>
+  
+  <!-- 磁盘中间的保存槽线条 -->
+  <rect x="-5" y="-2" width="10" height="0.8" fill="#E0E0E0" stroke="none"/>
+  <rect x="-5" y="0" width="10" height="0.8" fill="#E0E0E0" stroke="none"/>
+  <rect x="-5" y="2" width="10" height="0.8" fill="#E0E0E0" stroke="none"/>
+  
+  <!-- 磁盘右下角的写保护标签 -->
+  <rect x="5" y="5" width="3" height="3" fill="#E0E0E0" stroke="none"/>
+</g>
+</svg>

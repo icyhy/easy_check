@@ -414,7 +414,6 @@ Page({
    * 生成色块分割（矩形分割算法）
    */
   generateColorBlocks() {
-    console.log('开始生成色块，当前任务数量:', this.data.todayTasks.length);
     const tasks = this.data.todayTasks;
     
     if (!this.canvasRenderer) {
@@ -423,7 +422,6 @@ Page({
     }
     
     if (tasks.length === 0) {
-      console.log('没有任务，无法生成色块');
       // 即使没有任务，也要清空色块数组
       this.canvasRenderer.clearBlocks();
       this.setData({
@@ -433,7 +431,8 @@ Page({
     }
     
     try {
-      console.log('开始生成矩形分割色块，任务数量:', tasks.length);
+      // 清空旧的色块数据（但保留regions）
+      this.canvasRenderer.colorBlocks = [];
       
       // 设置任务数据到渲染器
       this.canvasRenderer.setTasks(tasks);
@@ -448,7 +447,6 @@ Page({
       // 获取生成的色块数据
       const colorBlocks = this.canvasRenderer.getColorBlocks() || [];
       
-      console.log('矩形分割色块生成完成，总数:', colorBlocks.length);
       this.setData({
         colorBlocks: colorBlocks
       });
